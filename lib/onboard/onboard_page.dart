@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/login_screen.dart';
+import 'package:fx_prj_test_flutter_app/profile/profile_user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class OnboardScreen extends StatefulWidget{
   OnboardScreenState createState() => OnboardScreenState();
@@ -9,7 +11,7 @@ class OnboardScreenState extends State<OnboardScreen>{
   final int _numPages = 3;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
-
+  GoogleSignIn googleSignIn = GoogleSignIn(clientId: "619033735551-plgl572jufnllvoh011e6cspl14sj8bf.apps.googleusercontent.com");
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
     for (int i = 0; i < _numPages; i++) {
@@ -28,6 +30,26 @@ class OnboardScreenState extends State<OnboardScreen>{
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
+  }
+  void checkSignInStatus() async{
+    await Future.delayed(Duration(seconds: 2));
+
+    bool isSignedIn = await googleSignIn.isSignedIn();
+    if(isSignedIn){
+      print('User already Signed In');
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>ProfileUser() ));
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+
+    }
+  }
+  @override
+  void initState() {
+   // checkSignInStatus();
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -182,10 +204,11 @@ class OnboardScreenState extends State<OnboardScreen>{
         color: Colors.white,
         child: GestureDetector(
           onTap: (){
-            Navigator.push(
+            /*Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => LoginScreen()),
-            );
+            );*/
+            checkSignInStatus();
           },
           child: Center(
             child: Padding(

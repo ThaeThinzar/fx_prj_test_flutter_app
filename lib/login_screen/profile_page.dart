@@ -3,6 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget{
   final String puserId;
@@ -10,7 +14,8 @@ class ProfileScreen extends StatefulWidget{
   final String pstatusMessage;
   final String paccessToken;
   final String pimgUrl;
-  ProfileScreen({Key key, @required this.puserId, @required this.pdisplayName, @required this.pstatusMessage, @required this.paccessToken, @required this.pimgUrl}) : super(key: key);
+  final String appType;
+  ProfileScreen({Key key, @required this.puserId, @required this.pdisplayName, @required this.pstatusMessage, @required this.paccessToken, @required this.pimgUrl, @required this.appType}) : super(key: key);
 
   ProfileScreenState createState()=> ProfileScreenState();
 }
@@ -20,10 +25,32 @@ class ProfileScreenState extends State<ProfileScreen>{
   String imgUrl = "{imgUrl}";
   String accessToken = "{AccessToken}";
   String userId = "{userId}";
+  String appType = "{'App'}";
+  GoogleSignIn googleSignIn = GoogleSignIn(clientId: "619033735551-plgl572jufnllvoh011e6cspl14sj8bf.apps.googleusercontent.com");
+  static final TwitterLogin twitterLogin = TwitterLogin(
+    consumerKey: '2AyxORvtEO7owxOVqnnvcZOQJ',
+    consumerSecret: '6oa42K7u7fjH4DVqtiRjcbqwb5sWYDq8vEbyvdZVBdGoJdBcTm',
+  );
   void logout() async{
     try {
-      await LineSDK.instance.logout();
-      Navigator.pop(context);
+      switch (appType.toString()){
+        case "Google":
+          await googleSignIn.signOut();
+          Navigator.pop(context);
+          break;
+        case "Line":
+          await LineSDK.instance.logout();
+          Navigator.pop(context);
+          break;
+        case "Twitter":
+          await twitterLogin.logOut();
+          Navigator.pop(context);
+          break;
+        default:
+          print("Login with Nothing");
+          break;
+      }
+
     } on PlatformException catch (e) {
       print(e.message);
     }
@@ -36,6 +63,7 @@ class ProfileScreenState extends State<ProfileScreen>{
       statusMessage = widget.pstatusMessage;
       imgUrl = widget.pimgUrl;
       accessToken = widget.paccessToken;
+      appType = widget.appType;
     });
     super.initState();
   }
@@ -54,7 +82,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(30),
-                  child: Image.network(imgUrl, width: 200, height: 200,),
+                  child: imgUrl != null ?Image.network(imgUrl, width: 200, height: 200,) :Image.network('https://vignette.wikia.nocookie.net/a-day-before-us/images/9/99/YeoReum.png/revision/latest?cb=20180725160827', width: 200, height: 200,),
                 ),
               ],
 

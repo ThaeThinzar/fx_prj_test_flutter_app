@@ -36,7 +36,13 @@ class _LoginScreenState extends State<LoginScreen>{
         final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token');
         final profile = JSON.jsonDecode(graphResponse.body);
         print("profile: $profile");
-        //Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: profile., paccessToken: accesstoken, pdisplayName: displayname, pimgUrl: imgUrl, pstatusMessage: statusmessage,)));
+        String name = profile['name'];
+        var picture = profile['picture'];
+        var data = picture['data'];
+        String url = data['url'];
+        String email = profile['email'];
+        String userId = profile['id'];
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId:userId , paccessToken: '6654653464', pdisplayName: name, pimgUrl: url, pstatusMessage: 'welcome to my fb profile',appType: 'Facebook',)));
 
         setState(() {
           userProfile = profile;

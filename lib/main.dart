@@ -4,6 +4,7 @@ import 'package:fx_prj_test_flutter_app/login_screen/profile_fb_page.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/twitter_login.dart';
 import 'package:fx_prj_test_flutter_app/onboard/onboard_orginal_test.dart';
 import 'package:fx_prj_test_flutter_app/onboard/onboard_page.dart';
+import 'package:fx_prj_test_flutter_app/onboard/walk_through.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {

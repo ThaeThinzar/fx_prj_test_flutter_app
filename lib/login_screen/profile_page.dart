@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -26,6 +27,7 @@ class ProfileScreenState extends State<ProfileScreen>{
   String accessToken = "{AccessToken}";
   String userId = "{userId}";
   String appType = "{'App'}";
+  final facebookLogin = FacebookLogin();
   GoogleSignIn googleSignIn = GoogleSignIn(clientId: "619033735551-plgl572jufnllvoh011e6cspl14sj8bf.apps.googleusercontent.com");
   static final TwitterLogin twitterLogin = TwitterLogin(
     consumerKey: '2AyxORvtEO7owxOVqnnvcZOQJ',
@@ -44,6 +46,10 @@ class ProfileScreenState extends State<ProfileScreen>{
           break;
         case "Twitter":
           await twitterLogin.logOut();
+          Navigator.pop(context);
+          break;
+        case "Facebook":
+          await facebookLogin.logOut();
           Navigator.pop(context);
           break;
         default:

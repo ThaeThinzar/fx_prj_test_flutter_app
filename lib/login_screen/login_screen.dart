@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen>{
         String url = data['url'];
         String email = profile['email'];
         String userId = profile['id'];
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId:userId , paccessToken: '6654653464', pdisplayName: name, pimgUrl: url, pstatusMessage: 'welcome to my fb profile',appType: 'Facebook',)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId:userId , paccessToken: '6654653464', pdisplayName: name, pimgUrl: url, pstatusMessage: email ,appType: 'Facebook',)));
 
         setState(() {
           userProfile = profile;
@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen>{
       }
     }
 
-  void _loginwithTwitter() async {
+  void _loginWithTwitter() async {
     final TwitterLoginResult result = await twitterLogin.authorize();
     String Message;
 
@@ -286,7 +286,7 @@ class _LoginScreenState extends State<LoginScreen>{
                               ],
                             ),
                             onPressed: (){
-                              _loginwithTwitter();
+                              _loginWithTwitter();
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),

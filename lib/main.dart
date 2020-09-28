@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fx_prj_test_flutter_app/Gesture/MyGesturePage.dart';
+import 'package:fx_prj_test_flutter_app/home/homebase.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/google_sign.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/profile_fb_page.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/twitter_login.dart';
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: OnboardScreen()
+      home: HomeBase()
 
     );
   }

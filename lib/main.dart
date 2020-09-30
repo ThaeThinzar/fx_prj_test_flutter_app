@@ -1,12 +1,17 @@
+import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:fx_prj_test_flutter_app/Gesture/MyGesturePage.dart';
 import 'package:fx_prj_test_flutter_app/home/homebase.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/google_sign.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/profile_fb_page.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/twitter_login.dart';
+import 'package:fx_prj_test_flutter_app/onboard/InitialPage.dart';
+import 'package:fx_prj_test_flutter_app/onboard/feature_discovery_walkthrough.dart';
+import 'package:fx_prj_test_flutter_app/onboard/friend_list.dart';
 import 'package:fx_prj_test_flutter_app/onboard/onboard_orginal_test.dart';
 import 'package:fx_prj_test_flutter_app/onboard/onboard_page.dart';
 import 'package:fx_prj_test_flutter_app/onboard/walk_through.dart';
+import 'package:fx_prj_test_flutter_app/onboard/walkthought_feature.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
@@ -35,8 +40,11 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeBase()
-
+      home: BubbleShowDemo()
+      /* FeatureDiscovery(
+        recordStepsInSharedPreferences: false,
+        child: WalkThroughFeature(),
+      ),*/
     );
   }
 }

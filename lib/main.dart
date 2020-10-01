@@ -12,6 +12,7 @@ import 'package:fx_prj_test_flutter_app/onboard/onboard_orginal_test.dart';
 import 'package:fx_prj_test_flutter_app/onboard/onboard_page.dart';
 import 'package:fx_prj_test_flutter_app/onboard/walk_through.dart';
 import 'package:fx_prj_test_flutter_app/onboard/walkthought_feature.dart';
+import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BubbleShowDemo()
+      home: MainPage()
       /* FeatureDiscovery(
         recordStepsInSharedPreferences: false,
         child: WalkThroughFeature(),

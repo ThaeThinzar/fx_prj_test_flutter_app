@@ -1,6 +1,7 @@
 
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:fx_prj_test_flutter_app/profile/profile_user.dart';
+import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
@@ -140,7 +141,9 @@ class _LoginScreenState extends State<LoginScreen>{
   }
   void startGoogleSignIn() async{
     GoogleSignInAccount user = await googleSignIn.signIn();
+
     //getProfile();
+    final GoogleSignInAuthentication googleAuth = await user.authentication;
     if(user == null){
       print('Sign in fail');
     } else {
@@ -175,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen>{
       case TwitterLoginStatus.loggedIn:
         Message = 'Logged in! username: ${result.session.username}';
         var userid = result.session.userId;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: 'userId', paccessToken: "2222222222", pdisplayName: result.session.username, pimgUrl: "https://twitter.com/ttks17020866/photo", pstatusMessage: result.session.userId,appType: 'Twitter',)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: 'userId', paccessToken: "2222222222", pdisplayName: result.session.username, pimgUrl: "https://twitter.com/ttks154/photo", pstatusMessage: result.session.userId,appType: 'Twitter',)));
         break;
       case TwitterLoginStatus.cancelledByUser:
         Message = 'Login cancelled by user.';
@@ -384,7 +387,35 @@ class _LoginScreenState extends State<LoginScreen>{
                       ),
                     ),],
                   )
-              )
+              ),
+              RaisedButton(
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                          return SecondSlidePage();
+                        },
+                        transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+                          return SlideTransition(
+                            position: new Tween<Offset>(
+                              begin: const Offset(0.0, -1.0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: new SlideTransition(
+                              position: new Tween<Offset>(
+                                begin: Offset.zero,
+                                end: const Offset(0.0, -1.0),
+                              ).animate(secondaryAnimation),
+                              child: child,
+                            ),
+                          );
+                        },
+                      )
+                  );
+                },
+                child: Text("Help Page"),
+              ),
             ],
           ),
         ),

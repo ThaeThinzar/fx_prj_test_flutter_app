@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
-class MainPage extends StatefulWidget {
-  _MainPageState createState() => _MainPageState();
+class HelpPage extends StatefulWidget {
+  _HelpPageState createState() => _HelpPageState();
 }
-class _MainPageState extends State<MainPage>{
+class _HelpPageState extends State<HelpPage>{
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
   String _swipeDirection = "";

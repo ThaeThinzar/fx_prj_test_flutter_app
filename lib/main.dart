@@ -1,8 +1,12 @@
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
 import 'package:fx_prj_test_flutter_app/Gesture/MyGesturePage.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/tap_home.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
 import 'package:fx_prj_test_flutter_app/home/homebase.dart';
+import 'package:fx_prj_test_flutter_app/home/share_social.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/google_sign.dart';
+import 'package:fx_prj_test_flutter_app/login_screen/login_screen.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/profile_fb_page.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/twitter_login.dart';
 import 'package:fx_prj_test_flutter_app/onboard/InitialPage.dart';
@@ -10,6 +14,7 @@ import 'package:fx_prj_test_flutter_app/onboard/feature_discovery_walkthrough.da
 import 'package:fx_prj_test_flutter_app/onboard/friend_list.dart';
 import 'package:fx_prj_test_flutter_app/onboard/onboard_orginal_test.dart';
 import 'package:fx_prj_test_flutter_app/onboard/onboard_page.dart';
+import 'package:fx_prj_test_flutter_app/onboard/tuturial_walkthrough_main.dart';
 import 'package:fx_prj_test_flutter_app/onboard/walk_through.dart';
 import 'package:fx_prj_test_flutter_app/onboard/walkthought_feature.dart';
 import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
@@ -41,11 +46,8 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainPage()
-      /* FeatureDiscovery(
-        recordStepsInSharedPreferences: false,
-        child: WalkThroughFeature(),
-      ),*/
+      home: MyHomePage(title: 'Test FX Project')
+      //MyHomePage(title:'FX project Test')
     );
   }
 }
@@ -73,55 +75,78 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: [
+
+        ],
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            RaisedButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => TutorialWalkThroughMain()
+              )
+              );
+            },
+            child: Text("Tutorial Walk Through"),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            RaisedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => LoginScreen()
+                )
+                );
+              },
+              child: Text("Login/Sign UP SNS"),
+            ),
+            RaisedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => HelpPage()
+                )
+                );
+              },
+              child: Text("Help Page"),
+            ),
+            RaisedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => HomeBase()
+                )
+                );
+              },
+              child: Text("Top Page"),
+            ),
+            RaisedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => ShareSocialPage()
+                )
+                );
+              },
+              child: Text("Share to SNS"),
+            ),
+            RaisedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => TapHome()
+                )
+                );
+              },
+              child: Text("Tap 1,2,3"),
             ),
           ],
         ),

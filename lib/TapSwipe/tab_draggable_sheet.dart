@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class BottomDrawer extends StatefulWidget{
   _TabDraggableSheet createState() => _TabDraggableSheet();
@@ -17,6 +18,7 @@ class _TabDraggableSheet extends State<BottomDrawer>{
     double mainHeight = height-280;
     int _value =1;
     return Scaffold(
+      backgroundColor: Colors.grey,
       body:GestureDetector(
         onPanEnd: (details){
           debugPrint(details.velocity.pixelsPerSecond.dy.toString());
@@ -33,17 +35,16 @@ class _TabDraggableSheet extends State<BottomDrawer>{
         child: Container(
           width: width,
           height: height,
-          color: Colors.white70,
+          color: Colors.grey,
           child:
           Column(
             children: [
-              Container(
-                color: Colors.amber,
-                height: height-80  ,
+              Expanded(
                 child: Stack(
                   children: [
                    SingleChildScrollView(
-                     child: Column(
+                     child:
+                     Column(
                        children: [
                          Container(
                            margin: EdgeInsets.all(8),
@@ -74,72 +75,100 @@ class _TabDraggableSheet extends State<BottomDrawer>{
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin:EdgeInsets.only(left:8),
-                    height:MediaQuery.of(context).size.height/20,
-                    child: RaisedButton(
 
-                      child: Text("BUY"),
-                      onPressed: (){
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height:20,
-                    child:  DropdownButton(
-                        value: 1,
-                        items:[
-                          DropdownMenuItem(child: Text("logs"), value: 1),
-                          DropdownMenuItem(child: Text("logs2"), value: 3),
-                          DropdownMenuItem(child: Text("logs3"), value: 2),
-                        ],
-                        onChanged:(value){
-                          setState(() {
-                            _value = value;
-                          });
-                        }
-
-                    ),
-                  ),
-                  Container(
-                    margin:EdgeInsets.only(left:8),
-                    height:MediaQuery.of(context).size.height/20,
-                    child: RaisedButton(
-                      child: Text("SELL"),
-                      onPressed: (){
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: isTab2Open ? Container(
-                  height: 200,
-                  color: Colors.greenAccent,
-                ): Container(),
-              ),
               Container(
-                height: 35,
-                width: width,
-                margin: EdgeInsets.only(left: 8,right: 8, top: 8),
-                child: RaisedButton(
-                  onPressed: (){
-                    if(isTab2Open){
-                      setState(() {
-                        isTab2Open = false;
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin:EdgeInsets.only(left:8),
+                      height:MediaQuery.of(context).size.height/20,
+                      child: RaisedButton(
 
-                        mainHeight = height - 80;
-                      });
-                    }else {
-                      setState(() {
-                        isTab2Open = true;
-                      });
-                    }
-                  },
-                  child: Text("P/L"),
+                        child: Text("BUY"),
+                        onPressed: (){
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height:20,
+                      child:  DropdownButton(
+                          value: 1,
+                          items:[
+                            DropdownMenuItem(child: Text("logs"), value: 1),
+                            DropdownMenuItem(child: Text("logs2"), value: 3),
+                            DropdownMenuItem(child: Text("logs3"), value: 2),
+                          ],
+                          onChanged:(value){
+                            setState(() {
+                              _value = value;
+                            });
+                          }
+
+                      ),
+                    ),
+                    Container(
+                      margin:EdgeInsets.only(left:8),
+                      height:MediaQuery.of(context).size.height/20,
+                      child: RaisedButton(
+                        child: Text("SELL"),
+                        onPressed: (){
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              isTab2Open ? Visibility(
+                child:  Container(
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    color: Colors.white,
+                    height: 300,
+                    width: width,
+                    child:Column(
+                      children: [
+                         SizedBox(
+                           width:width,
+                           child: RaisedButton(
+                             onPressed: (){
+
+                             },
+                             child: Text('Deposit/ Margin/ Rate of Maintance Margin', style: TextStyle(fontSize: 15)),
+                           ),
+                         )
+                      ],
+                    )
+                ),
+                visible: true,
+
+              ):Visibility(
+                 child:  Container(
+                  height: 300,
+                  color: Colors.white,
+                  child:Text('Hello')),
+                  visible: false,),
+              Container(
+                height: 40,
+                width: width,
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
+                  child: RaisedButton(
+
+                    onPressed: (){
+                      if(isTab2Open){
+                        setState(() {
+                          isTab2Open = false;
+                        });
+                      }else {
+                        setState(() {
+                          isTab2Open = true;
+                        });
+                      }
+                    },
+                    child: Text("P/L"),
+                  ),
                 ),
               ),
             ],
@@ -175,51 +204,49 @@ class _BottomSheetState extends State<BottomSheet>{
               SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: MaterialButton(
-                  color: Colors.red,
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text('Login wiht Google'),
-                        SizedBox(width: 10,),
-                        Icon(
-                          Icons.arrow_forward,color: Colors.white,
-                        )
-                      ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: width/5,
+                    child: RaisedButton(
+                      onPressed: (){
+
+                      },
+                      child: Text('BUY \nLimit', style: TextStyle(fontSize: 12),),
                     ),
                   ),
-                  onPressed: (){
+                  SizedBox(
+                    width: width/5,
+                    child: RaisedButton(
+                      onPressed: (){
 
-                  },
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: MaterialButton(
-                  color: Colors.red,
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text('Login wiht Google'),
-                        SizedBox(width: 10,),
-                        Icon(
-                          Icons.arrow_forward,color: Colors.white,
-                        )
-                      ],
+                      },
+                      child: Text('SELL \nLimit', style: TextStyle(fontSize: 12),),
                     ),
                   ),
-                  onPressed: (){
+                 /* SizedBox(
+                    width: width/8,
+                  ),*/
+                  SizedBox(
+                    width: width/5,
+                    child: RaisedButton(
+                      onPressed: (){
 
-                  },
-                ),
+                      },
+                      child: Text('BUY \nStop', style: TextStyle(fontSize: 12),),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width/5,
+                    child: RaisedButton(
+                      onPressed: (){
+
+                      },
+                      child: Text('SELL \nStop', style: TextStyle(fontSize: 12),),
+                    ),
+                  )
+                ],
               )
             ],
           ),

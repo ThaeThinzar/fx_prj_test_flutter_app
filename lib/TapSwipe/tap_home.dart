@@ -5,51 +5,44 @@ import 'package:fx_prj_test_flutter_app/TapSwipe/sliable_list_test.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tab_draggable_sheet.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
 
-class TapHome extends StatelessWidget
-{
+class TapHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
-       body: Center(
-         child: Column(
-           mainAxisAlignment: MainAxisAlignment.center,
-           children: [
-             RaisedButton(
-               onPressed: (){
-                 Navigator.push(context, MaterialPageRoute(
-                     builder: (context)=> TapSwipeTest()
-                 ));
-               },
-               child: Text("Slide Up Libray"),
-             ),
-             RaisedButton(
-               onPressed: (){
-                 Navigator.push(context, MaterialPageRoute(
-                     builder: (context)=> BottomDrawer()
-                 ));
-               },
-               child: Text("Bottom Drawer"),
-             ),
-             RaisedButton(
-               onPressed: (){
-                 Navigator.push(context, MaterialPageRoute(
-                     builder: (context)=> ChartTab()
-                 ));
-               },
-               child: Text("Fx Tab"),
-             ),
-             RaisedButton(
-               onPressed: (){
-                 Navigator.push(context, MaterialPageRoute(
-                     builder: (context)=> SlidableListItem()
-                 ));
-               },
-               child: Text("Slidable"),
-             ),
-           ],
-         )
-       ),
-     );
+    return Scaffold(
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TapSwipeTest()));
+            },
+            child: Text("Slide Up Libray"),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BottomDrawer()));
+            },
+            child: Text("Bottom Drawer"),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => ChartTab()));
+            },
+            child: Text("Fx Tab(Not Work)"),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SlidableListItem()));
+            },
+            child: Text("Slidable"),
+          ),
+        ],
+      )),
+    );
   }
-
 }

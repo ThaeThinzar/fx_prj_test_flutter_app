@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/chart_tab.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/sliable_list_test.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tab_draggable_sheet.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
 
@@ -36,6 +37,14 @@ class TapHome extends StatelessWidget
                  ));
                },
                child: Text("Fx Tab"),
+             ),
+             RaisedButton(
+               onPressed: (){
+                 Navigator.push(context, MaterialPageRoute(
+                     builder: (context)=> SlidableListItem()
+                 ));
+               },
+               child: Text("Slidable"),
              ),
            ],
          )

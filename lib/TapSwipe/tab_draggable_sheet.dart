@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/sliable_list_test.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class BottomDrawer extends StatefulWidget{
@@ -8,8 +9,11 @@ class BottomDrawer extends StatefulWidget{
 class _TabDraggableSheet extends State<BottomDrawer>{
 
   bool isShowBottomsheet = false;
-  bool isTab2Open = false;
-
+  bool isPLClick = false;
+  bool isLogsClick = false;
+  String logs = "logs";
+  bool isFirstTime = false;
+  bool isClear = false;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -17,6 +21,7 @@ class _TabDraggableSheet extends State<BottomDrawer>{
     var threshold = 100;
     double mainHeight = height-280;
     int _value =1;
+
     return Scaffold(
       backgroundColor: Colors.grey,
       body:GestureDetector(
@@ -35,7 +40,7 @@ class _TabDraggableSheet extends State<BottomDrawer>{
         child: Container(
           width: width,
           height: height,
-          color: Colors.grey,
+          //color: Colors.grey,
           child:
           Column(
             children: [
@@ -91,23 +96,109 @@ class _TabDraggableSheet extends State<BottomDrawer>{
                         },
                       ),
                     ),
-                    SizedBox(
-                      height:20,
-                      child:  DropdownButton(
-                          value: 1,
-                          items:[
-                            DropdownMenuItem(child: Text("logs"), value: 1),
-                            DropdownMenuItem(child: Text("logs2"), value: 3),
-                            DropdownMenuItem(child: Text("logs3"), value: 2),
-                          ],
-                          onChanged:(value){
-                            setState(() {
-                              _value = value;
-                            });
-                          }
+                    Container(
 
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            child: Text(logs),
+                            onTap: (){
+                              print('Tab on Log');
+                              if(isLogsClick){
+                                setState(() {
+                                  isLogsClick = false;
+                                });
+                              } else {
+                                if(isPLClick){
+                                  setState(() {
+                                    isPLClick = false;
+                                    isLogsClick = true;
+                                  });
+                                }else {
+                                  setState(() {
+                                    isLogsClick = true;
+                                  });
+                                }
+                              }
+                            },
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: IconButton(
+                              onPressed: (){
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return SimpleDialog(
+                                        contentPadding: EdgeInsets.fromLTRB(50.0, 0.0, 24.0, 24.0),
+                                        children: [
+                                          setupAlertDialoadContainer()
+                                        ],
+
+                                      );
+                                    });
+
+                              },
+                              iconSize: 30,
+                              icon: Icon(Icons.arrow_drop_down),
+                            ),
+                          )
+                        ],
                       ),
                     ),
+                 /*   Container(
+                      height:25,
+                      padding: EdgeInsets.only(left: 5,right: 5),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1.0, style: BorderStyle.solid),
+                          borderRadius: BorderRadius.all(Radius.circular(0.0)),
+                        ),
+                      ),
+
+                      child:Row(
+                        children: [
+                      Container(
+                            width: 30,
+
+                            child: FlatButton(
+                                padding: EdgeInsets.all(0),
+                                child: Text('logs'),
+                            ),
+                          ),
+                          Container(
+                            width: 47,
+                            child: DropdownButton(
+
+                                items:[
+                                  DropdownMenuItem(child: Text(" "), value: 1),
+                                  DropdownMenuItem(child: Text("1.0"), value: 3),
+                                  DropdownMenuItem(child: Text("2.0"), value: 2),
+                                ],
+                                onTap: (){
+                                  print('Tab on DropDown button');
+                                   if(isTabOnLogs){
+                                setState(() {
+                                  isTabOnLogs = false;
+                                });
+                              }else {
+                                setState(() {
+                                  isTabOnLogs = true;
+                                });
+                              }
+                                },
+                                onChanged:(value){
+                                  setState(() {
+                                    _value = value;
+                                  });
+                                }
+
+                            ),
+                          ),
+                        ],
+                      )
+                    ),*/
                     Container(
                       margin:EdgeInsets.only(left:8),
                       height:MediaQuery.of(context).size.height/20,
@@ -120,34 +211,8 @@ class _TabDraggableSheet extends State<BottomDrawer>{
                   ],
                 ),
               ),
-              isTab2Open ? Visibility(
-                child:  Container(
-                    padding: EdgeInsets.only(left: 5, right: 5),
-                    color: Colors.white,
-                    height: 300,
-                    width: width,
-                    child:Column(
-                      children: [
-                         SizedBox(
-                           width:width,
-                           child: RaisedButton(
-                             onPressed: (){
-
-                             },
-                             child: Text('Deposit/ Margin/ Rate of Maintance Margin', style: TextStyle(fontSize: 15)),
-                           ),
-                         )
-                      ],
-                    )
-                ),
-                visible: true,
-
-              ):Visibility(
-                 child:  Container(
-                  height: 300,
-                  color: Colors.white,
-                  child:Text('Hello')),
-                  visible: false,),
+             //ToDo to add Tab2 and log here
+              _Tab2Layout(),
               Container(
                 height: 40,
                 width: width,
@@ -155,17 +220,22 @@ class _TabDraggableSheet extends State<BottomDrawer>{
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8,right: 8,bottom: 5,top: 5),
                   child: RaisedButton(
-
                     onPressed: (){
-                      if(isTab2Open){
+                      if(isPLClick){
                         setState(() {
-                          isTab2Open = false;
+                          isPLClick = false;
                         });
+                      }else
+                        if(isLogsClick){
+                          setState(() {
+                            isPLClick = true;
+                            isLogsClick = false;
+                          });
                       }else {
-                        setState(() {
-                          isTab2Open = true;
-                        });
-                      }
+                          setState(() {
+                            isPLClick = true;
+                          });
+                        }
                     },
                     child: Text("P/L"),
                   ),
@@ -177,7 +247,176 @@ class _TabDraggableSheet extends State<BottomDrawer>{
       )
     );
   }
+  Widget setupAlertDialoadContainer() {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    return    Container(
+      width: 100.0,
+      height: 250.0,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 5,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            onTap: (){
+              Navigator.of(context).pop();
+              setState(() {
+                logs = '0.'+ index.toString();
+              });
+            },
+            title: Text('0.'+index.toString()),
+          );
+        },
+      ),
+    );
+  }
+  Widget _Tab2Layout(){
 
+   if(isPLClick && !isLogsClick){
+     return Visibility(
+       child: _Tab2WidgetLayout(),
+       visible:  true,
+     );
+   }else if(isLogsClick && !isPLClick){
+     return Visibility(
+       child: _logsLayout(),
+       visible: true,
+     );
+   } else {
+     return Visibility(
+       visible: false,
+       child: Container(),
+     );
+   }
+
+  }
+  Widget _Tab2WidgetLayout(){
+    return  Container(
+        padding: EdgeInsets.only(left: 5, right: 5),
+        color: Colors.white,
+        height: 260,
+        width: MediaQuery.of(context).size.width,
+        child:Column(
+          children: [
+            SizedBox(
+              width:MediaQuery.of(context).size.width,
+              child: RaisedButton(
+                onPressed: (){
+
+                },
+                child: Text('Deposit/ Margin/ Rate of Maintance Margin', style: TextStyle(fontSize: 15)),
+              ),
+            ),
+            NotExistPositionList(),
+          ],
+        )
+    );
+  }
+  Widget _logsLayout(){
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        alignment: Alignment.center,
+        child: _logsInsertView());
+  }
+  Widget _logsInsertView(){
+    return Container(
+      width: 200,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _KeyButton('1'),
+              _KeyButton('2'),
+              _KeyButton('3')
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _KeyButton('4'),
+              _KeyButton('5'),
+              _KeyButton('6')
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _KeyButton('7'),
+              _KeyButton('8'),
+              _KeyButton('9')
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _KeyButton('.'),
+              _KeyButton('0'),
+              _KeyButton('C')
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+  isCheckFirst(){
+    if(logs.toString() == '0.0' || logs.toString() == 'logs'){
+      setState(() {
+        isFirstTime = true;
+      });
+    } else{
+      setState(() {
+        isFirstTime = false;
+      });
+    }
+  }
+  isClearButton(String value){
+    if(value == "C"){
+      setState(() {
+        isClear = true;
+      });
+    } else {
+      setState(() {
+        isClear = false;
+      });
+    }
+  }
+  Widget _KeyButton(String value){
+    return Container(
+      width: 200/3,
+      height: 50,
+      child: RaisedButton(
+        onPressed: (){
+          isClearButton(value);
+          if(!isClear){
+            isCheckFirst();
+            if(isFirstTime){
+              setState(() {
+                logs = value;
+              });
+            } else {
+              setState(() {
+                if(logs.length> 3){
+                  setState(() {
+                    logs = logs;
+                  });
+                }else {
+                  logs = logs.toString() + value;
+                }
+              });
+            }
+          } else {
+            setState(() {
+              logs = '0.0';
+            });
+          }
+        },
+        child: Text(value),
+      ),
+    );
+
+  }
 }
 class BottomSheet extends StatefulWidget{
   _BottomSheetState createState() => _BottomSheetState();

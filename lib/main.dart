@@ -1,5 +1,6 @@
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fx_prj_test_flutter_app/Gesture/MyGesturePage.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_home.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
@@ -29,6 +30,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates:[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale("en", "US"),
+        Locale('ja',"JP"),
+        Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
+      ],
+      locale: Locale("fa", "IR") ,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.

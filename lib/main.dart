@@ -1,65 +1,113 @@
-import 'package:feature_discovery/feature_discovery.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:fx_prj_test_flutter_app/Gesture/MyGesturePage.dart';
+import 'package:fx_prj_test_flutter_app/SaveDataSharedPreference.dart';
+import 'package:fx_prj_test_flutter_app/Setting/MyPageSetting.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_home.dart';
-import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
 import 'package:fx_prj_test_flutter_app/home/homebase.dart';
 import 'package:fx_prj_test_flutter_app/home/share_social.dart';
-import 'package:fx_prj_test_flutter_app/login_screen/google_sign.dart';
+import 'package:fx_prj_test_flutter_app/localization/demo_localization.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/login_screen.dart';
-import 'package:fx_prj_test_flutter_app/login_screen/profile_fb_page.dart';
-import 'package:fx_prj_test_flutter_app/login_screen/twitter_login.dart';
-import 'package:fx_prj_test_flutter_app/onboard/InitialPage.dart';
-import 'package:fx_prj_test_flutter_app/onboard/feature_discovery_walkthrough.dart';
-import 'package:fx_prj_test_flutter_app/onboard/friend_list.dart';
-import 'package:fx_prj_test_flutter_app/onboard/onboard_orginal_test.dart';
-import 'package:fx_prj_test_flutter_app/onboard/onboard_page.dart';
 import 'package:fx_prj_test_flutter_app/onboard/tuturial_walkthrough_main.dart';
-import 'package:fx_prj_test_flutter_app/onboard/walk_through.dart';
-import 'package:fx_prj_test_flutter_app/onboard/walkthought_feature.dart';
 import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'localization/language_constants.dart';
+
+bool isRTLlayout;
 void main() {
   runApp(MyApp());
 }
+class MyApp extends StatefulWidget{
 
-class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    state.setLocale(newLocale);
+  }
+
+  _MyAppState createState() => _MyAppState();
+}
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  Locale _locale;
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+  @override
+  void didChangeDependencies() {
+    getLocale().then((locale) {
+      setState(() {
+        this._locale = locale;
+      });
+    });
+    super.didChangeDependencies();
+  }
+  getRTLStatus()async{
+      isRTLlayout = await SharedPreferenceManager.getRTLOptionStatus();
+  }
+  @override
+  void initState() {
+    super.initState();
+    getRTLStatus();
+    print('RTL option: $isRTLlayout');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates:[
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        Locale("en", "US"),
-        Locale('ja',"JP"),
-        Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
-      ],
-      locale: Locale("fa", "IR") ,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Test FX Project')
-      //MyHomePage(title:'FX project Test')
-    );
+    if (this._locale == null) {
+      return Container(
+        child: Center(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800])),
+        ),
+      );
+    }else{
+      return MaterialApp(
+          locale: _locale,
+          localizationsDelegates:[
+            DemoLocalization.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale("en", "US"),
+            Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
+          // locale: isRTLlayout ? Locale("fa", "IR") : Locale("en", "US"),
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            // This is the theme of your application.
+            //
+            // Try running your application with "flutter run". You'll see the
+            // application has a blue toolbar. Then, without quitting the app, try
+            // changing the primarySwatch below to Colors.green and then invoke
+            // "hot reload" (press "r" in the console where you ran "flutter run",
+            // or simply save your changes to "hot reload" in a Flutter IDE).
+            // Notice that the counter didn't reset back to zero; the application
+            // is not restarted.
+            primarySwatch: Colors.blue,
+            // This makes the visual density adapt to the platform that you run
+            // the app on. For desktop platforms, the controls will be smaller and
+            // closer together (more dense) than on mobile platforms.
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: MyHomePage(title: 'Test FX Project')
+        //MyHomePage(title:'FX project Test')
+      );
+    }
   }
 }
 
@@ -105,6 +153,30 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                    'Switch RTL Layout'
+                ),
+                Switch(
+                  value: isRTLlayout,
+                  onChanged: (value){
+                    if(value == true){
+                      setState(() {
+
+                      });
+                    }else {
+                      setState(() {
+
+                      });
+                    }
+                  },
+                  activeTrackColor: Colors.lightGreenAccent,
+                  activeColor: Colors.green,
+                ),
+              ],
+            ),
             RaisedButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(
@@ -159,6 +231,14 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text("Tap 1,2,3"),
             ),
+            RaisedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context)=> MyPageSetting()
+                ));
+              },
+              child: Text('MyPage Setting'),
+            )
           ],
         ),
       ),

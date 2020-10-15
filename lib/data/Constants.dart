@@ -42,32 +42,32 @@ class Data{
 final  List<TopData> topDataList = [
     TopData(
         playStyle: "プレイ調み",
-        eventNote: "#リーマンショック¥ドルリーマンショックをもう一度イベント1",
-        eventTitle: "リーマンショック¥ドルリーマンショックをもう一度イベント1",
+        eventNote: "#リーマンショック1",
+        eventTitle: "リーマンショックをもう一もう一度体験!",
         eventTime: "イベント時間 2020/01/04 20:30",
         imgUrl: 'view5.jpg'),
     TopData(
         playStyle: "プレイ調み",
-        eventNote: "#リーマンショック¥ドルリーマンショックをもう一度イベント2",
-        eventTitle: "リーマンショック¥ドルリーマンショックをもう一度イベント2",
+        eventNote: "##リーマンショック2",
+        eventTitle: "リーマンショックをもう一もう一度体験!",
         eventTime: "イベント時間 2020/01/04 20:30",
         imgUrl: 'view5.jpg'),
     TopData(
         playStyle: "プレイ調み",
-        eventNote: "#リーマンショック¥ドルリーマンショックをもう一度イベント3",
-        eventTitle: "リーマンショック¥ドルリーマンショックをもう一度イベント3",
+        eventNote: "#リーマンショック3",
+        eventTitle: "リーマンショックをもう一もう一度体験!",
         eventTime: "イベント時間 2020/01/04 20:30",
         imgUrl: 'view5.jpg'),
     TopData(
         playStyle: "プレイ調み",
-        eventNote: "#リーマンショック¥ドルリーマンショックをもう一度イベント4",
-        eventTitle: "リーマンショック¥ドルリーマンショックをもう一度イベント4",
+        eventNote: "#リーマンショック4",
+        eventTitle: "リーマンショックをもう一もう一度体験!",
         eventTime: "イベント時間 2020/01/04 20:30",
         imgUrl: 'view5.jpg'),
     TopData(
         playStyle: "プレイ調み",
-        eventNote: "#リーマンショック¥ドルリーマンショックをもう一度イベント5",
-        eventTitle: "リーマンショック¥ドルリーマンショックをもう一度イベント5",
+        eventNote: "#リーマンショック5",
+        eventTitle: "リーマンショックをもう一もう一度体験!5",
         eventTime: "イベント時間 2020/01/04 20:30",
         imgUrl: 'view5.jpg'),
 

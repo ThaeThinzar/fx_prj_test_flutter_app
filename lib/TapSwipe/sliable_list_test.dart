@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fx_prj_test_flutter_app/main.dart';
 
 class SlidableListItem extends StatefulWidget {
   @override
@@ -261,50 +262,115 @@ class _NotExistPositionListState extends State<NotExistPositionList>{
           itemCount: 5,
           itemExtent: 50,
           itemBuilder: (context,index){
-            return Slidable(key: ValueKey(index),
-              actionPane: SlidableDrawerActionPane(),
-              secondaryActions: [
-                Container(
-                  color: Colors.grey,
-                  height: 40,
-                  child: FlatButton(
-                      child: Text('編集'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                          side: BorderSide(color: Colors.black)
-                      ),
-                      onPressed: () {
-
-                      }
-                  ),
-                ),
-                Container(
-                  color: Colors.grey,
-                  height: 40,
-                  child: FlatButton(
-                      child: Text('決済'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                          side: BorderSide(color: Colors.black)
-                      ),
-                      onPressed: () {
-
-                      }
-                  ),
-                ),
-              ],
-              dismissal: SlidableDismissal(child: SlidableDrawerDismissal()),
-              child: Container(
-                  child:Card(
+            return
+              isRTLlayout ? Slidable(key: ValueKey(index),
+                actionPane: SlidableBehindActionPane(),
+                actions: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 2),
                     color: Colors.grey,
-                    child:  ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-                      dense:true,
-                      title: Center(child: Text('Not Exit Position $index',style: TextStyle(fontSize: 12),textAlign: TextAlign.center,)),
+                    height: 40,
+                    child: FlatButton(
+                        child: Text('編集'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            side: BorderSide(color: Colors.black)
+                        ),
+                        onPressed: () {
+
+                        }
                     ),
-                  )
-              ),
-            );
+                  ),
+                  Container(
+                    color: Colors.grey,
+                    height: 40,
+                    child: FlatButton(
+                        child: Text('決済'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            side: BorderSide(color: Colors.black)
+                        ),
+                        onPressed: () {
+
+                        }
+                    ),
+                  ),
+                ],
+                dismissal: SlidableDismissal(child: SlidableDrawerDismissal()),
+                child: Container(
+                    child:Card(
+                      color: Colors.grey,
+                      child:  ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+                        dense:true,
+                        title: Center(child: Text('Not Exit Position $index',style: TextStyle(fontSize: 12),textAlign: TextAlign.center,)),
+                      ),
+                    )
+                ),
+              ):Slidable(key: ValueKey(index),
+                actionPane: SlidableBehindActionPane(),
+               /* actions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Archive',
+                    color: Colors.grey,
+                    icon: Icons.archive,
+                    onTap: (){
+
+                    },
+                  ),
+                  IconSlideAction(
+                    caption: 'Share',
+                    color: Colors.grey,
+                    icon: Icons.share,
+                    onTap: () {
+
+                    },
+                  ),
+                ],*/
+                secondaryActions: [
+                  Container(
+                    margin: EdgeInsets.only(left: 2),
+                    color: Colors.grey,
+                    height: 40,
+                    child: FlatButton(
+                        child: Text('編集'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            side: BorderSide(color: Colors.black)
+                        ),
+                        onPressed: () {
+
+                        }
+                    ),
+                  ),
+                  Container(
+                    color: Colors.grey,
+                    margin: EdgeInsets.only(left: 2),
+                    height: 40,
+                    child: FlatButton(
+                        child: Text('決済'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            side: BorderSide(color: Colors.black)
+                        ),
+                        onPressed: () {
+
+                        }
+                    ),
+                  ),
+                ],
+                dismissal: SlidableDismissal(child: SlidableDrawerDismissal()),
+                child: Container(
+                    child:Card(
+                      color: Colors.grey,
+                      child:  ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+                        dense:true,
+                        title: Center(child: Text('Not Exit Position $index',style: TextStyle(fontSize: 12),textAlign: TextAlign.center,)),
+                      ),
+                    )
+                ),
+              );
           }),
     );
   }

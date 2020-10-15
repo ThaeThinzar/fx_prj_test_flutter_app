@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fx_prj_test_flutter_app/home/home_page.dart';
 import 'package:fx_prj_test_flutter_app/library/library_screen.dart';
+import 'package:fx_prj_test_flutter_app/main.dart';
 import 'package:fx_prj_test_flutter_app/mypage/my_page.dart';
 
 class HomeBase extends StatefulWidget {
@@ -19,10 +20,17 @@ class _HomeBaseState extends State<HomeBase> {
     });
   }
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("RTL option is : $isRTLlayout");
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _childern[_currentTab],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black87,
         onTap:onTabTapped,
         currentIndex: 0,
         items: [

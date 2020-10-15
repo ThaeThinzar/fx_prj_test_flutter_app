@@ -25,14 +25,14 @@ class _MyHomePageState extends State<EasyShareTest> {
             child: ListView(
               children: <Widget>[
                 MaterialButton(
-                  child: Text('Share text'),
+                  child: Text('Share URL'),
                   onPressed: () async => await _shareText(),
                 ),
                 MaterialButton(
                   child: Text('Share image'),
                   onPressed: () async => await _shareImage(),
                 ),
-                MaterialButton(
+               /* MaterialButton(
                   child: Text('Share images'),
                   onPressed: () async => await _shareImages(),
                 ),
@@ -43,7 +43,7 @@ class _MyHomePageState extends State<EasyShareTest> {
                 MaterialButton(
                   child: Text('Share mixed'),
                   onPressed: () async => await _shareMixed(),
-                ),
+                ),*/
                 MaterialButton(
                   child: Text('Share image from url'),
                   onPressed: () async => await _shareImageFromUrl(),

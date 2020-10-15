@@ -16,7 +16,7 @@ class ProfileScreen extends StatefulWidget{
   final String paccessToken;
   final String pimgUrl;
   final String appType;
-  ProfileScreen({Key key, @required this.puserId, @required this.pdisplayName, @required this.pstatusMessage, @required this.paccessToken, @required this.pimgUrl, @required this.appType}) : super(key: key);
+  ProfileScreen({Key key,  @required this.puserId, @required this.pdisplayName, @required this.pstatusMessage, @required this.paccessToken, @required this.pimgUrl, @required this.appType}) : super(key: key);
 
   ProfileScreenState createState()=> ProfileScreenState();
 }
@@ -78,7 +78,7 @@ class ProfileScreenState extends State<ProfileScreen>{
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Line Login With profiele"),),
+        title: Center(child: Text("Profile"),),
       ),
       body: SingleChildScrollView(
         child: Column(

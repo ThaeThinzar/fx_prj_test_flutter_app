@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/profile_page.dart';
+import 'package:swipedetector/swipedetector.dart';
 
 class LoginScreen extends StatefulWidget {
   _LoginScreenState createState()=> _LoginScreenState();
@@ -43,7 +44,8 @@ class _LoginScreenState extends State<LoginScreen>{
         String url = data['url'];
         String email = profile['email'];
         String userId = profile['id'];
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId:userId , paccessToken: '6654653464', pdisplayName: name, pimgUrl: url, pstatusMessage: email ,appType: 'Facebook',)));
+       // String acctoken = profile['token'];
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId:userId , paccessToken: '*****', pdisplayName: name, pimgUrl: url, pstatusMessage: 'User email is :$email' ,appType: 'Facebook',)));
 
         setState(() {
           userProfile = profile;
@@ -178,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen>{
       case TwitterLoginStatus.loggedIn:
         Message = 'Logged in! username: ${result.session.username}';
         var userid = result.session.userId;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: 'userId', paccessToken: "2222222222", pdisplayName: result.session.username, pimgUrl: "https://twitter.com/ttks154/photo", pstatusMessage: result.session.userId,appType: 'Twitter',)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: result.session.userId, paccessToken: "******", pdisplayName: result.session.username, pimgUrl: "https://twitter.com/ttks154/photo", pstatusMessage: "Welcome to my Page",appType: 'Twitter',)));
         break;
       case TwitterLoginStatus.cancelledByUser:
         Message = 'Login cancelled by user.';
@@ -199,66 +201,112 @@ class _LoginScreenState extends State<LoginScreen>{
     Widget build(BuildContext context) {
       return Scaffold(
         body:Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 50),
-                child: Image.asset("assets/images/onboard3.png", width: 100, height: 100,),
-              ),
-              Text("Welcome to Our App", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
-              Text("Please login before you can use", style: TextStyle(fontSize: 15,)),
-              Padding(
-                padding: const EdgeInsets.only(left:24, right:24,top: 15),
-                child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 0, bottom: 10, right: 10, left: 10),
-                          child: RaisedButton(
-                            color: Color.fromRGBO(0, 185, 0, 1),
-                            textColor: Colors.white,
-                            padding: const EdgeInsets.all(1),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Image(
-                                        image: AssetImage(
-                                          'assets/images/line_logo.png',
+          child: SwipeDetector(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: Image.asset("assets/images/onboard3.png", width: 100, height: 100,),
+                ),
+                Text("Welcome to Our App", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
+                Text("Please login with SNS before you can use", style: TextStyle(fontSize: 15,)),
+                Padding(
+                  padding: const EdgeInsets.only(left:24, right:24,top: 15),
+                  child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 0, bottom: 10, right: 10, left: 10),
+                            child: RaisedButton(
+                              color: Color.fromRGBO(0, 185, 0, 1),
+                              textColor: Colors.white,
+                              padding: const EdgeInsets.all(1),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Image(
+                                          image: AssetImage(
+                                            'assets/images/line_logo.png',
+                                          ),
+                                          height: 50,
+                                          width: 50,
                                         ),
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                      Container(
-                                        color: Colors.black12,
-                                        width: 2,
-                                        height: 40,
-                                      ),
-                                      Expanded(
-                                        child: Center(child: Text("LINEでログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
-                                    ]
-                                ),
-                              ],
-                            ),
-                            onPressed: (){
-                              startLineLogin();
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                                        Container(
+                                          color: Colors.black12,
+                                          width: 2,
+                                          height: 40,
+                                        ),
+                                        Expanded(
+                                          child: Center(child: Text("LINEでログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
+                                      ]
+                                  ),
+                                ],
+                              ),
+                              onPressed: (){
+                                startLineLogin();
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ]
+                      ]
+                  ),
                 ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(left:24, right:24,top: 15),
-                  child: Row(
-                    children: [
-                      Expanded(
+                Padding(
+                    padding: const EdgeInsets.only(left:24, right:24,top: 15),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 0, bottom: 10, right: 10, left: 10),
+                            child: RaisedButton(
+                              color: Color.fromRGBO(0, 120, 225, 1),
+                              textColor: Colors.white,
+                              padding: const EdgeInsets.all(1),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Image(
+                                          image: AssetImage(
+                                            'assets/images/twitter_ic.png',
+                                          ),
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                        Container(
+                                          color: Colors.black12,
+                                          width: 2,
+                                          height: 40,
+                                        ),
+                                        Expanded(
+                                          child: Center(child: Text("Twitter でログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
+                                      ]
+                                  )
+                                ],
+                              ),
+                              onPressed: (){
+                                _loginWithTwitter();
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left:24, right:24,top: 15),
+                    child:  Row(
+                      children: [Expanded(
                         child: Container(
                           margin: const EdgeInsets.only(top: 0, bottom: 10, right: 10, left: 10),
                           child: RaisedButton(
@@ -272,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen>{
                                     children: <Widget>[
                                       Image(
                                         image: AssetImage(
-                                          'assets/images/twitter_ic.png',
+                                          'assets/images/facebook_icon.png',
                                         ),
                                         height: 50,
                                         width: 50,
@@ -283,140 +331,124 @@ class _LoginScreenState extends State<LoginScreen>{
                                         height: 40,
                                       ),
                                       Expanded(
-                                        child: Center(child: Text("Twitter でログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
+                                        child: Center(child: Text("Facebook でログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
                                     ]
                                 )
                               ],
                             ),
                             onPressed: (){
-                              _loginWithTwitter();
+                              _loginWithFB();
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(left:24, right:24,top: 15),
-                  child:  Row(
-                    children: [Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 0, bottom: 10, right: 10, left: 10),
-                        child: RaisedButton(
-                          color: Color.fromRGBO(0, 120, 225, 1),
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.all(1),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Image(
-                                      image: AssetImage(
-                                        'assets/images/facebook_icon.png',
+                      ),],
+                    )
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left:24, right:24,top: 15),
+                    child:Row(
+                      children: [Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 0, bottom: 10, right: 10, left: 10),
+                          child: RaisedButton(
+                            color: Colors.white24,
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(1),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Image(
+                                          image: AssetImage(
+                                            'assets/images/gg_ic.png',
+                                          ),
+                                          height: 40,
+                                          width: 40,
+                                        ),
                                       ),
-                                      height: 50,
-                                      width: 50,
-                                    ),
-                                    Container(
-                                      color: Colors.black12,
-                                      width: 2,
-                                      height: 40,
-                                    ),
-                                    Expanded(
-                                      child: Center(child: Text("Facebook でログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
-                                  ]
-                              )
-                            ],
-                          ),
-                          onPressed: (){
-                            _loginWithFB();
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),],
-                  )
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(left:24, right:24,top: 15),
-                  child:Row(
-                    children: [Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 0, bottom: 10, right: 10, left: 10),
-                        child: RaisedButton(
-                          color: Colors.white60,
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.all(1),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Image(
-                                      image: AssetImage(
-                                        'assets/images/gg_ic.png',
+                                      Container(
+                                        color: Colors.black12,
+                                        width: 2,
+                                        height: 40,
                                       ),
-                                      height: 50,
-                                      width: 50,
-                                    ),
-                                    Container(
-                                      color: Colors.black12,
-                                      width: 2,
-                                      height: 40,
-                                    ),
-                                    Expanded(
-                                      child: Center(child: Text("Google でログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
-                                  ]
-                              )
-                            ],
-                          ),
-                          onPressed: (){
-                            startGoogleSignIn();
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),],
-                  )
-              ),
-              RaisedButton(
-                onPressed: (){
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                          return SecondSlidePage();
-                        },
-                        transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-                          return SlideTransition(
-                            position: new Tween<Offset>(
-                              begin: const Offset(0.0, -1.0),
-                              end: Offset.zero,
-                            ).animate(animation),
-                            child: new SlideTransition(
-                              position: new Tween<Offset>(
-                                begin: Offset.zero,
-                                end: const Offset(0.0, -1.0),
-                              ).animate(secondaryAnimation),
-                              child: child,
+                                      Expanded(
+                                        child: Center(child: Text("Google でログイン", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold))),)
+                                    ]
+                                )
+                              ],
                             ),
-                          );
-                        },
-                      )
-                  );
-                },
-                child: Text("Help Page"),
-              ),
-            ],
+                            onPressed: (){
+                              startGoogleSignIn();
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),],
+                    )
+                ),
+                RaisedButton(
+                  onPressed: (){
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                            return SecondSlidePage();
+                          },
+                          transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+                            return SlideTransition(
+                              position: new Tween<Offset>(
+                                begin: const Offset(0.0, -1.0),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: new SlideTransition(
+                                position: new Tween<Offset>(
+                                  begin: Offset.zero,
+                                  end: const Offset(0.0, -1.0),
+                                ).animate(secondaryAnimation),
+                                child: child,
+                              ),
+                            );
+                          },
+                        )
+                    );
+                  },
+                  child: Text("Help Page"),
+                ),
+              ],
+            ),
+            onSwipeDown: (){
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                      return SecondSlidePage();
+                    },
+                    transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+                      return SlideTransition(
+                        position: new Tween<Offset>(
+                          begin: const Offset(0.0, -1.0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: new SlideTransition(
+                          position: new Tween<Offset>(
+                            begin: Offset.zero,
+                            end: const Offset(0.0, -1.0),
+                          ).animate(secondaryAnimation),
+                          child: child,
+                        ),
+                      );
+                    },
+                  )
+              );
+            },
           ),
         ),
       );

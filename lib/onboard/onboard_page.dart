@@ -204,11 +204,11 @@ class OnboardScreenState extends State<OnboardScreen>{
         color: Colors.white,
         child: GestureDetector(
           onTap: (){
-            /*Navigator.push(
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => LoginScreen()),
-            );*/
-            checkSignInStatus();
+            );
+
           },
           child: Center(
             child: Padding(

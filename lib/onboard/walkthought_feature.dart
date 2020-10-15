@@ -183,8 +183,8 @@ class _ContentBodyState extends State<ContentBody> {
                ),
                child: MyGesturePage( data:TopData(
                    playStyle: "プレイ調み",
-                   eventNote: "#リーマンショック¥ドルをもう一度イベント5",
-                   eventTitle: "リーマンシ",
+                   eventNote: "#リーマンショック5",
+                   eventTitle: "リーマンショックをもう一もう一度体験!",
                    eventTime: "イベント時間 2020/01/04 20:30",
                    imgUrl: 'assets/images/view5.jpg'),),
              ),
@@ -192,8 +192,8 @@ class _ContentBodyState extends State<ContentBody> {
 
               child:  MyGesturePage( data:TopData(
                   playStyle: "プレイ調み",
-                  eventNote: "#リーマンショック ¥ドルリ1",
-                  eventTitle: "リーマンショック¥ドルリーマンショックをもう一度イベント1",
+                  eventNote: "#リーマンショック1",
+                  eventTitle: "リーマンショックをもう一もう一度体験!",
                   eventTime: "イベント時間 2020/01/04 20:30",
                   imgUrl: 'assets/images/view1.jpg'),),
             ),
@@ -201,8 +201,8 @@ class _ContentBodyState extends State<ContentBody> {
 
                child:  MyGesturePage( data:TopData(
                    playStyle: "プレイ調み",
-                   eventNote: "#リーマンショック ¥ドルリ1",
-                   eventTitle: "リーマンショック¥ドルリーマンショックをもう一度イベント1",
+                   eventNote: "#リーマンショック",
+                   eventTitle: "リーマンショックをもう一もう一度体験!",
                    eventTime: "イベント時間 2020/01/04 20:30",
                    imgUrl: 'assets/images/view2.jpg'),),
              ),

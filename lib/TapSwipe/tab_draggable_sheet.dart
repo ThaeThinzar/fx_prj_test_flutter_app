@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fx_prj_test_flutter_app/Gesture/MyGesturePage.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/sliable_list_test.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/timer_setting.dart';
+import 'package:fx_prj_test_flutter_app/home/home_page.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class BottomDrawer extends StatefulWidget {
@@ -14,6 +17,7 @@ class _TabDraggableSheet extends State<BottomDrawer> {
   String logs = "logs";
   bool isFirstTime = false;
   bool isClear = false;
+  bool isShowTimeSetting = false;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -30,6 +34,9 @@ class _TabDraggableSheet extends State<BottomDrawer> {
             if (details.velocity.pixelsPerSecond.dy > threshold) {
               this.setState(() {
                 isShowBottomsheet = false;
+                if(isShowTimeSetting){
+                  isShowTimeSetting = false;
+                }
               });
             } else if (details.velocity.pixelsPerSecond.dy < -threshold) {
               setState(() {
@@ -48,6 +55,8 @@ class _TabDraggableSheet extends State<BottomDrawer> {
                       SingleChildScrollView(
                         child: Column(
                           children: [
+                            SizedBox(height: 16,),
+                            ChartEventList(),
                             Container(
                               margin: EdgeInsets.all(8),
                               width: width,
@@ -71,16 +80,22 @@ class _TabDraggableSheet extends State<BottomDrawer> {
                         ),
                       ),
                       //TODO Bottom Sheet
+                      isShowTimeSetting ? Positioned(
+                         bottom: isShowTimeSetting ? -60 : -(height / 3)-180,
+                        left: 0,
+                        child: TimerSettingDrawer(),
+                      ):
                       Positioned(
                         bottom: isShowBottomsheet ? -60 : -(height / 3),
+                       // bottom: isShowBottomsheet ? -60: isShowTimeSetting? (isShowBottomsheet ?-(height / 3)-180 : -60):-(height / 3)-180,
                         left: 0,
                         child: BottomSheet(),
                       )
                     ],
                   ),
                 ),
-
-                Container(
+               // TimerSetting(),
+                isShowTimeSetting ? Container() :Container(
                   color: Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,8 +169,8 @@ class _TabDraggableSheet extends State<BottomDrawer> {
                   ),
                 ),
                 //ToDo to add Tab2 and log here
-                _Tab2Layout(),
-                Container(
+                isShowTimeSetting ? Container() :_Tab2Layout(),
+                isShowTimeSetting ? Container(): Container(
                   height: 40,
                   width: width,
                   color: Colors.white,
@@ -213,6 +228,14 @@ class _TabDraggableSheet extends State<BottomDrawer> {
     );
   }
 
+  Widget _pointLostBottomLayout(){
+    if(isShowTimeSetting){
+      /*return Visibility(
+        child: ,
+      )*/
+    }
+
+  }
   Widget _Tab2Layout() {
     if (isPLClick && !isLogsClick) {
       return Visibility(
@@ -345,6 +368,51 @@ class _TabDraggableSheet extends State<BottomDrawer> {
       ),
     );
   }
+
+  Widget ChartEventList(){
+    final double categoryHeight = MediaQuery.of(context).size.height * 0.30 - 50;
+   return Container(
+      height: 50.0,
+
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int index){
+            return
+              Container(
+                margin: EdgeInsets.only(bottom: 5, left: 5, top: 5),
+                height: 40,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        color: Colors.deepPurple,
+                        onPressed: (){
+                          print('Show Timer setting');
+                          if(isShowTimeSetting){
+                            setState(() {
+                              isShowTimeSetting = false;
+                            });
+                          } else {
+                            setState(() {
+                              isShowTimeSetting = true;
+                            });
+                          }
+
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+
+                        ),
+                        child: Text('Event ${index+1}',style: TextStyle(color: Colors.white),),
+                      )
+                  ),
+                ),
+              );
+          }),
+    );
+  }
 }
 
 class BottomSheet extends StatefulWidget {
@@ -358,11 +426,14 @@ class _BottomSheetState extends State<BottomSheet> {
     double height = MediaQuery.of(context).size.height;
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(20)),
-      child: Container(
+      child:
+      Container(
         color: Colors.white,
         width: width,
-        height: height / 3 + 20,
-        child: Padding(
+        height: height/3+20 ,
+        //height: (height / 3) * 2,// for timer setting
+        child:
+        Padding(
           padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
           child: Column(
             children: [
@@ -373,54 +444,91 @@ class _BottomSheetState extends State<BottomSheet> {
               SizedBox(
                 height: 10,
               ),
-              Row(
+             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: width / 5,
+                    width: width / 6,
                     child: RaisedButton(
                       onPressed: () {},
                       child: Text(
                         'BUY \nLimit',
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 10),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: width / 5,
+                    width: width / 6,
                     child: RaisedButton(
                       onPressed: () {},
                       child: Text(
                         'SELL \nLimit',
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 10),
                       ),
                     ),
                   ),
-                  /* SizedBox(
+                   SizedBox(
                     width: width/8,
-                  ),*/
+                  ),
                   SizedBox(
-                    width: width / 5,
+                    width: width / 6,
                     child: RaisedButton(
                       onPressed: () {},
                       child: Text(
                         'BUY \nStop',
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 10),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: width / 5,
+                    width: width / 6,
                     child: RaisedButton(
                       onPressed: () {},
                       child: Text(
                         'SELL \nStop',
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 10),
                       ),
                     ),
                   )
                 ],
               )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+class TimerSettingDrawer extends StatefulWidget {
+  TimerSettingDrawerState createState() => TimerSettingDrawerState();
+}
+
+class TimerSettingDrawerState extends State<TimerSettingDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      child:
+      Container(
+        color: Colors.white,
+        width: width,
+        //height: height/3+20 ,
+        height: (height / 3) * 2,// for timer setting
+        child:
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+          child: Column(
+            children: [
+              Icon(
+                Icons.keyboard_arrow_up,
+                size: 20,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TimerSetting(),
             ],
           ),
         ),

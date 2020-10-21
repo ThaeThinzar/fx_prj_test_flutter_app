@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fx_prj_test_flutter_app/main.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class SlidableListItem extends StatefulWidget {
   @override
@@ -11,11 +12,19 @@ class _SlidableListItemState extends State<SlidableListItem> {
   String logs = "logs";
   bool isFirstTime = false;
   bool isClear = false;
+  CalendarController _calendarController ;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    _calendarController = CalendarController();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _calendarController.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -24,88 +33,109 @@ class _SlidableListItemState extends State<SlidableListItem> {
 
     return Scaffold(
       appBar: AppBar(title: Text('Slidable List '),),
-      body: Column(
-        children: [
-          Container(
+      body: _buildCalendarCustom()
 
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  child: Text(logs),
-                  onTap: (){
-                    print('Tab on Log');
-                  },
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: (){
+
+
+    );
+
+
+  }
+  Widget _buildCalendarCustom() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 400,
+      child: TableCalendar(
+        rowHeight: 25,
+        calendarController: _calendarController,
+      ),
+    );
+  }
+  Widget _logsDialogTable(){
+    return  Column(
+      children: [
+        Container(
+
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                child: Text(logs),
+                onTap: (){
+                  print('Tab on Log');
+                },
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: IconButton(
+                  onPressed: (){
                     //TODO to show dialog
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SimpleDialog(
-                                contentPadding: EdgeInsets.fromLTRB(50.0, 0.0, 24.0, 24.0),
-                                children: [
-                                  setupAlertDialoadContainer()
-                                ],
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SimpleDialog(
+                            contentPadding: EdgeInsets.fromLTRB(50.0, 0.0, 24.0, 24.0),
+                            children: [
+                              setupAlertDialoadContainer()
+                            ],
 
-                            );
-                          });
+                          );
+                        });
 
-                    },
-                    iconSize: 30,
-                    icon: Icon(Icons.arrow_drop_down),
-                  ),
-                )
-              ],
-            ),
+                  },
+                  iconSize: 30,
+                  icon: Icon(Icons.arrow_drop_down),
+                ),
+              )
+            ],
           ),
-          _logsInsertView(),
-        ],
-      )
-     /* Container(
-        height: 200,
-        margin: EdgeInsets.all(10),
-        child: ListView.builder(
-            itemCount: 10,
-            itemExtent: 50,
-            itemBuilder: (context,index){
-              return Slidable(key: ValueKey(index),
-                actionPane: SlidableDrawerActionPane(),
-                secondaryActions: [
-                  Container(
-                    color: Colors.grey,
-                    height: 40,
-                    child: FlatButton(
+        ),
+        _logsInsertView(),
+      ],
+    );
+  }
+  Widget _SlidableList(){
+    return Container(
+      height: 200,
+      margin: EdgeInsets.all(10),
+      child: ListView.builder(
+          itemCount: 10,
+          itemExtent: 50,
+          itemBuilder: (context,index){
+            return Slidable(key: ValueKey(index),
+              actionPane: SlidableDrawerActionPane(),
+              secondaryActions: [
+                Container(
+                  color: Colors.grey,
+                  height: 40,
+                  child: FlatButton(
                       child: Text('編集'),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0.0),
-                            side: BorderSide(color: Colors.black)
-                        ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          side: BorderSide(color: Colors.black)
+                      ),
                       onPressed: () {
 
                       }
-                    ),
                   ),
-                  Container(
-                    color: Colors.grey,
-                    height: 40,
-                    child: FlatButton(
-                        child: Text('決済'),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0.0),
-                            side: BorderSide(color: Colors.black)
-                        ),
-                        onPressed: () {
+                ),
+                Container(
+                  color: Colors.grey,
+                  height: 40,
+                  child: FlatButton(
+                      child: Text('決済'),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          side: BorderSide(color: Colors.black)
+                      ),
+                      onPressed: () {
 
-                        }
-                    ),
+                      }
                   ),
-                ],
-                dismissal: SlidableDismissal(child: SlidableDrawerDismissal()),
-                child: Container(
+                ),
+              ],
+              dismissal: SlidableDismissal(child: SlidableDrawerDismissal()),
+              child: Container(
                   child:Card(
                     color: Colors.grey,
                     child:  ListTile(
@@ -114,15 +144,11 @@ class _SlidableListItemState extends State<SlidableListItem> {
                       title: Center(child: Text('Not Exit Position $index',style: TextStyle(fontSize: 12),textAlign: TextAlign.center,)),
                     ),
                   )
-                ),
-              );
-            }),
-      ),*/
-
+              ),
+            );
+          }),
     );
-
   }
-
   Widget setupAlertDialoadContainer() {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -255,7 +281,8 @@ class NotExistPositionList extends StatefulWidget{
 class _NotExistPositionListState extends State<NotExistPositionList>{
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return
+      Container(
       height: 200,
       child: ListView.builder(
           padding: EdgeInsets.all(0.0), // Add to remove a gap above the list view
@@ -375,4 +402,75 @@ class _NotExistPositionListState extends State<NotExistPositionList>{
     );
   }
 
+}
+
+class HomeCalendarPage extends StatefulWidget {
+  @override
+  _HomeCalendarPageState createState() => _HomeCalendarPageState();
+}
+
+class _HomeCalendarPageState extends State<HomeCalendarPage> {
+  CalendarController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = CalendarController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TableCalendar(
+              headerVisible: true,
+              initialCalendarFormat: CalendarFormat.month,
+              calendarStyle: CalendarStyle(
+                  todayColor: Colors.blue,
+                  selectedColor: Theme.of(context).primaryColor,
+                  todayStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.0,
+                      color: Colors.white)
+              ),
+              startingDayOfWeek: StartingDayOfWeek.sunday,
+              //onDaySelected:_onDaySelected,
+              builders: CalendarBuilders(
+                selectedDayBuilder: (context, date, events) => Container(
+                    margin: const EdgeInsets.all(5.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Text(
+                      date.day.toString(),
+                      style: TextStyle(color: Colors.white),
+                    )),
+                todayDayBuilder: (context, date, events) => Container(
+                    margin: const EdgeInsets.all(5.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Text(
+                      date.day.toString(),
+                      style: TextStyle(color: Colors.white),
+                    )),
+              ),
+              calendarController: _controller,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+  void _onDaySelected(DateTime day, List e) {
+    setState(() {
+     // _selectedDay = day;
+    //  e.length == 0 ? _selectedEvents = [] : _selectedEvents = e;
+    });
+  }
 }

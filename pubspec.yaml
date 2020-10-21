@@ -51,8 +51,10 @@ dependencies:
   fluttertoast: ^7.1.1
   scoped_model: ^1.0.1
   shared_preferences: ^0.5.12
+  magnifier: ^0.0.5
+  table_calendar: ^2.3.0
 
-  intl: 0.16.1
+  intl:
   intl_translation:
 
   flutter_localizations:

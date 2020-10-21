@@ -1,7 +1,11 @@
 import 'package:bubble_showcase/bubble_showcase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/sliable_list_test.dart';
+import 'package:fx_prj_test_flutter_app/data/Constants.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class TimerSetting extends StatefulWidget {
   TimerSettingState createState() => TimerSettingState();
@@ -13,9 +17,134 @@ class TimerSettingState extends State<TimerSetting> {
   double play_speed = 0;
   int _hour = 0;
   int _min = 00;
+  bool isCalenderShow = false;
   RangeValues _values = RangeValues(0.3, 0.7);
+  CalendarController _calendarController ;
+  String selectedDate = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _calendarController = CalendarController();
+  }
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        isCalenderShow ?  _showCalenderTab(_calendarController) :timerSettingWidget(),
+
+      ],
+    );
+
+  }
+  Widget _showCalenderTab(CalendarController controller){
+    return Column(
+       mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: EdgeInsets.all(0.0),
+          width: MediaQuery.of(context).size.width,
+          child: TableCalendar(
+          rowHeight: 28,
+          availableCalendarFormats:{CalendarFormat.month: 'Month'},
+          calendarStyle: CalendarStyle(
+
+          ),
+          headerStyle: HeaderStyle(
+              centerHeaderTitle: true,
+              formatButtonDecoration: BoxDecoration(
+                color: Colors.brown,
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+              formatButtonTextStyle: TextStyle(color: Colors.white),
+              formatButtonShowsNext: false,
+            ),
+            calendarController: _calendarController,
+
+            onDaySelected: (date, events, dates) {
+              setState(() {
+                selectedDate = Constants.changeDateFormat(date);
+               // selectedDate = date.year.toString()+'-'+ date.month.toString()+'-'+date.day.toString();
+              });
+              Fluttertoast.showToast(
+                  msg: "Your selected date is $selectedDate",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor:  Colors.brown,
+                  textColor: Colors.white,
+                  fontSize: 12
+              );
+              print('Selected date :${date.year} + ${date.month} + ${date.day}');
+              print('combined Selected date :$selectedDate');
+            },
+            builders: CalendarBuilders(
+              selectedDayBuilder: (context, date, events) => Container(
+                  margin: const EdgeInsets.all(5.0),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    date.day.toString(),
+                    style: TextStyle(color: Colors.white),
+                  )),
+              todayDayBuilder: (context, date, events) => Container(
+                  margin: const EdgeInsets.all(5.0),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(15.0)),
+                  child: Text(
+                    date.day.toString(),
+                    style: TextStyle(color: Colors.white),
+                  )),
+            ),
+          ),
+          ),
+          Container(
+            height: 120,
+            child: ListView.builder(
+              padding: EdgeInsets.all(0.0),
+              itemCount: 10,
+              itemBuilder: (context, position) {
+                return Card(
+                  color: Colors.white24,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8,top: 4, bottom: 4),
+                    child: Text('   The event of economic indicator of ${(position+1).toString()}', style: TextStyle(fontSize: 12.0),),
+                  ),
+                );
+              },
+            ),
+          ),
+          Container(
+            height: 25,
+            margin: EdgeInsets.only(top:5),
+            child: RaisedButton(
+              color: Colors.black38,
+              onPressed: (){
+                setState(() {
+                  isCalenderShow = false;
+                });
+              },
+              child: Text("CANCEL",style: TextStyle(color: Colors.white, fontSize: 12),)
+            ),
+          )
+      ],
+    );
+
+  }
+  Color _selectedColor(DateTime date){
+    String today = Constants.changeDateFormat(DateTime.now());
+    String selectedDate = Constants.changeDateFormat(date);
+    if(selectedDate == today){
+      return Colors.blue;
+    } else {
+      return Colors.green;
+    }
+  }
+  Widget timerSettingWidget(){
     var width = MediaQuery.of(context).size.width;
     return Container(
       child: Column(
@@ -28,15 +157,15 @@ class TimerSettingState extends State<TimerSetting> {
               children: [
                 IconButton(
                   onPressed:(){
-                    Fluttertoast.showToast(
-                        msg: "We'll show calender view soon",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.indigoAccent,
-                        textColor: Colors.white,
-                        fontSize: 12.0
-                    );
+                    if(isCalenderShow){
+                      setState(() {
+                        isCalenderShow = false;
+                      });
+                    } else {
+                      setState(() {
+                        isCalenderShow = true;
+                      });
+                    }
                   },
                   icon: Icon(
                     Icons.calendar_today,
@@ -70,67 +199,67 @@ class TimerSettingState extends State<TimerSetting> {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width -65,
-                  child:Column(
-                    children: [
-                      SliderTheme(
-                        data: SliderTheme.of(context).copyWith(
-                          activeTrackColor: Colors.red[700],
-                          inactiveTrackColor: Colors.red[100],
-                          trackShape: RectangularSliderTrackShape(),
-                          trackHeight: 4.0,
-                          thumbColor: Colors.white,
-                          thumbShape:RoundSliderThumbShape(enabledThumbRadius: 10),
-                          /* CustomSliderThumbCircle(
+                    width: MediaQuery.of(context).size.width -65,
+                    child:Column(
+                      children: [
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Colors.red[700],
+                            inactiveTrackColor: Colors.red[100],
+                            trackShape: RectangularSliderTrackShape(),
+                            trackHeight: 4.0,
+                            thumbColor: Colors.white,
+                            thumbShape:RoundSliderThumbShape(enabledThumbRadius: 10),
+                            /* CustomSliderThumbCircle(
                         thumbRadius: 20* .4,
                         min:0,
                         max: 100,
                       ),*/
-                          overlayColor: Colors.red.withAlpha(32),
-                          overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                            overlayColor: Colors.red.withAlpha(32),
+                            overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                          ),
+                          child: Slider(
+                            min: 0,
+                            max: 23,
+                            value: _hr_value,
+                            onChanged: (value) {
+                              setState(() {
+                                _hr_value = value;
+                                _hour = value.toInt();
+                              });
+                            },
+                          ),
                         ),
-                        child: Slider(
-                          min: 0,
-                          max: 23,
-                          value: _hr_value,
-                          onChanged: (value) {
-                            setState(() {
-                              _hr_value = value;
-                              _hour = value.toInt();
-                            });
-                          },
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Colors.indigoAccent[700],
+                            inactiveTrackColor: Colors.indigoAccent[100],
+                            trackShape: RectangularSliderTrackShape(),
+                            trackHeight: 4.0,
+                            thumbColor: Colors.red,
+                            thumbShape:
+                            CustomSliderThumbCircle(
+                              thumbRadius: 20* .4,
+                              min:1,
+                              max: 59,
+                            ),
+                            overlayColor: Colors.indigoAccent.withAlpha(32),
+                            overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                          ),
+                          child: Slider(
+                            min: 0,
+                            max: 59,
+                            value: min_value,
+                            onChanged: (value) {
+                              setState(() {
+                                min_value = value;
+                                _min = min_value.toInt();
+                              });
+                            },
+                          ),
                         ),
-                      ),
-                      SliderTheme(
-                        data: SliderTheme.of(context).copyWith(
-                          activeTrackColor: Colors.indigoAccent[700],
-                          inactiveTrackColor: Colors.indigoAccent[100],
-                          trackShape: RectangularSliderTrackShape(),
-                          trackHeight: 4.0,
-                          thumbColor: Colors.red,
-                          thumbShape:
-                           CustomSliderThumbCircle(
-                        thumbRadius: 20* .4,
-                        min:1,
-                        max: 59,
-                      ),
-                          overlayColor: Colors.indigoAccent.withAlpha(32),
-                          overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
-                        ),
-                        child: Slider(
-                          min: 0,
-                          max: 59,
-                          value: min_value,
-                          onChanged: (value) {
-                            setState(() {
-                              min_value = value;
-                              _min = min_value.toInt();
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  )
+                      ],
+                    )
 
                 ),
                 // CustomSliderThumbCircle( thumbRadius: 12,min: 1, max: 100),
@@ -143,7 +272,6 @@ class TimerSettingState extends State<TimerSetting> {
       ),
     );
   }
-
   Widget _buttonWidget(String name, double width) {
     return Container(
       height: 30,

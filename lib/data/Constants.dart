@@ -1,5 +1,13 @@
 import 'package:fx_prj_test_flutter_app/data/top_data.dart';
+import 'package:intl/intl.dart';
+class Constants {
 
+  static String changeDateFormat(DateTime dateTime){
+    DateFormat dateFormat = new  DateFormat('yyyy-MMM-dd on EEEE');
+    String date = dateFormat.format(dateTime);
+    return date;
+  }
+}
 const TOP_DATA =[
   {
     "play_style":"プレイ調み",

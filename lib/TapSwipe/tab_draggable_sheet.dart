@@ -515,7 +515,7 @@ class TimerSettingDrawerState extends State<TimerSettingDrawer> {
         color: Colors.white,
         width: width,
         //height: height/3+20 ,
-        height: (height / 3) * 2,// for timer setting
+        height: (height / 4) * 3,// for timer setting
         child:
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),

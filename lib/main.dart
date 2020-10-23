@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fx_prj_test_flutter_app/SaveDataSharedPreference.dart';
 import 'package:fx_prj_test_flutter_app/Setting/MyPageSetting.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/slectable_btn_gesture.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/sliable_list_test.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/tab_draggable_sheet.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_home.dart';
+import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
 import 'package:fx_prj_test_flutter_app/home/homebase.dart';
 import 'package:fx_prj_test_flutter_app/home/share_social.dart';
 import 'package:fx_prj_test_flutter_app/localization/demo_localization.dart';
@@ -13,7 +17,10 @@ import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'data/Constants.dart';
+import 'data/common_widget.dart';
 import 'localization/language_constants.dart';
+import 'maganifing_view/magnify_view.dart';
 
 bool isRTLlayout;
 void main() {
@@ -31,6 +38,20 @@ class MyApp extends StatefulWidget{
 }
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  final routes =<String,WidgetBuilder>{
+    ScreenURLPath.LOGIN:(context) => LoginScreen() ,
+    ScreenURLPath.TUTORIAL_WALKTTHROUGH:(context) => TutorialWalkThroughMain(),
+    ScreenURLPath.HELP_PAGE:(context) => HelpPage(),
+    ScreenURLPath.TOP_PAGE:(context) => HomeBase(),
+    ScreenURLPath.SHARE_SNS:(context) => ShareSocialPage(),
+    ScreenURLPath.MY_PAGE:(context) => MyPageSetting(),
+    ScreenURLPath.TAB:(context) => TapHome(),
+    ScreenURLPath.MAGNIFINE:(context) => MagnifyView(),
+    ScreenURLPath.SLIDEUPLIBRARY:(context) => TapSwipeTest(),
+    ScreenURLPath.BOTTOM_DRAWER:(context) => BottomDrawer(),
+    ScreenURLPath.SLIABLELIST:(context) => SlidableListItem(),
+    ScreenURLPath.SLIABLE_BUTTON:(context) => SelectableButtonWithGesture(),
+  };
   Locale _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -104,7 +125,8 @@ class _MyAppState extends State<MyApp> {
             // closer together (more dense) than on mobile platforms.
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: MyHomePage(title: 'Test FX Project')
+          home: MyHomePage(title: 'Test FX Project'),
+        routes: routes,
         //MyHomePage(title:'FX project Test')
       );
     }
@@ -153,92 +175,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                    'Switch RTL Layout'
-                ),
-                Switch(
-                  value: isRTLlayout,
-                  onChanged: (value){
-                    if(value == true){
-                      setState(() {
+            CommonWidget.buttonWidget(context, ScreenURLPath.TUTORIAL_WALKTTHROUGH, "Tutorial Walk Through"),
+            CommonWidget.buttonWidget(context, ScreenURLPath.LOGIN,'Login/Sign Up SNS'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.HELP_PAGE, 'Help Page'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.TOP_PAGE, 'Top Page'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.TAB, "Tap 1,2,3"),
+            CommonWidget.buttonWidget(context, ScreenURLPath.MY_PAGE,'MyPage Setting'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.SHARE_SNS, 'Share to SNS'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.MAGNIFINE, 'Magnifying Window'),
 
-                      });
-                    }else {
-                      setState(() {
-
-                      });
-                    }
-                  },
-                  activeTrackColor: Colors.lightGreenAccent,
-                  activeColor: Colors.green,
-                ),
-              ],
-            ),
-            RaisedButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => TutorialWalkThroughMain()
-              )
-              );
-            },
-            child: Text("Tutorial Walk Through"),
-            ),
-            RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => LoginScreen()
-                )
-                );
-              },
-              child: Text("Login/Sign UP SNS"),
-            ),
-            RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => HelpPage()
-                )
-                );
-              },
-              child: Text("Help Page"),
-            ),
-            RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => HomeBase()
-                )
-                );
-              },
-              child: Text("Top Page"),
-            ),
-            RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => ShareSocialPage()
-                )
-                );
-              },
-              child: Text("Share to SNS"),
-            ),
-            RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => TapHome()
-                )
-                );
-              },
-              child: Text("Tap 1,2,3"),
-            ),
-            RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context)=> MyPageSetting()
-                ));
-              },
-              child: Text('MyPage Setting'),
-            )
           ],
         ),
       ),

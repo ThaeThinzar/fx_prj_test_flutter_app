@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fx_prj_test_flutter_app/Gesture/MyGesturePage.dart';
 import 'package:fx_prj_test_flutter_app/data/Constants.dart';
 import 'package:fx_prj_test_flutter_app/data/top_data.dart';
+import 'package:fx_prj_test_flutter_app/rating_review_app/custom_dialog_rating.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState()=> _HomePageState();
@@ -58,6 +59,26 @@ class _HomePageState extends State<HomePage> {
               child: Text(' Titles of Category', textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 12),),
             ),
             CategoriesScroller(),
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
+              width: MediaQuery.of(context).size.width,
+              child: RaisedButton(
+                color:Colors.white24,
+                child: Text("Review The app", style: TextStyle(color: Colors.white),),
+                onPressed: (){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => CustomDialogRating(
+                      title: "Review The App",
+                      description:
+                      "How about using this app?\nShare your feedback and help us to improve.",
+                      buttonText: "Cancel",
+                      image: Image(image: AssetImage("assets/images/review.png"),),
+                    ),
+                  );
+                },
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(left: 16, right: 16),
               width: MediaQuery.of(context).size.width,

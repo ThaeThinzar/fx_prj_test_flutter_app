@@ -15,6 +15,7 @@ class ScreenURLPath {
   static const String BOTTOM_DRAWER = '/bottom_drawer';
   static const String SLIABLELIST = '/sliable';
   static const String SLIABLE_BUTTON = '/sliable_button';
+  static const String RATING_PAGE = '/rating_screen';
 }
 class Constants {
 

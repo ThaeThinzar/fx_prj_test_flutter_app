@@ -13,6 +13,7 @@ import 'package:fx_prj_test_flutter_app/home/share_social.dart';
 import 'package:fx_prj_test_flutter_app/localization/demo_localization.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/login_screen.dart';
 import 'package:fx_prj_test_flutter_app/onboard/tuturial_walkthrough_main.dart';
+import 'package:fx_prj_test_flutter_app/rating_review_app/rating_page_screen.dart';
 import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
     ScreenURLPath.BOTTOM_DRAWER:(context) => BottomDrawer(),
     ScreenURLPath.SLIABLELIST:(context) => SlidableListItem(),
     ScreenURLPath.SLIABLE_BUTTON:(context) => SelectableButtonWithGesture(),
+    ScreenURLPath.RATING_PAGE:(context) => RatingPageScreen(),
   };
   Locale _locale;
   setLocale(Locale locale) {

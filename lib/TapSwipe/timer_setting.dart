@@ -315,34 +315,29 @@ class TimerSettingState extends State<TimerSetting> {
   }
 
   String  updateTimerPropertiees(String hr, String min, ){
-    String yeartext = yearButtonText.isEmpty? " ": "$yearButtonText\n";
-    String minText = minButtonText.isEmpty ? " " :" $minButtonText\n";
+
+    String yeartext = checkNothingSelected(_yearDateButtons) == true ? " ": "$yearButtonText\n";
+    String minText = checkNothingSelected(_minButtons)  ? " " :" $minButtonText\n";
+    String hourText = checkNothingSelected(_hoursButtons) == true ? " ": "$hrButtonText";
     setState(() {
       timerProperties = "Your Selected timer setting:"+'\n $hr hr '+
        '\n $min min' +'\n ${(play_speed.toInt()).toString()} times and'+
-      ' $yeartext'+'$minText '+'$hrButtonText';
+      ' $yeartext'+'$minText '+'$hourText';
 
     });
   }
-  Color _changeColor(MyButtonModal myButtonModal){
-    if(myButtonModal.changeButtonColor){
-      if(clickedYearBtnID == 0){
-        setState(() {
-          clickedYearBtnID = myButtonModal.buttonId;
-        });
-        return Colors.blue;
-      } else if(clickedYearBtnID == myButtonModal.buttonId){
-        setState(() {
-          clickedYearBtnID = 0;
-        });
-        return Colors.white;
-      } else {
-        return Colors.white;
+  bool checkNothingSelected(List<MyButtonModal> buttonlist){
+    List<Color> colorList = List();
+    for(int i=0 ;i< buttonlist.length; i++){
+      if(buttonlist[i].color == Colors.blue){
+        colorList.add(buttonlist[i].color);
       }
-    } else {
-      return Colors.white;
     }
-
+    if(colorList.length ==0){
+      return true;
+    }else {
+      return false;
+    }
   }
   Widget _yearButtonWidget(MyButtonModal buttonModal, double width,int id) {
     return Container(
@@ -354,7 +349,6 @@ class TimerSettingState extends State<TimerSetting> {
           setState(() {
             buttonModal.changeButtonColor = !buttonModal.changeButtonColor;
             isClickYear = true;
-            yearButtonText = buttonModal.buttonText;
             buttonModal.color = _changeYearButtonColor(buttonModal);
           });
 
@@ -369,8 +363,8 @@ class TimerSettingState extends State<TimerSetting> {
   Color _changeYearButtonColor(MyButtonModal buttonModal){
     if(clickedYearBtnID == 0) {
       setState(() {
+        yearButtonText = buttonModal.buttonText;
         clickedYearBtnID = buttonModal.buttonId;
-        // clickedHourBtnID = buttonModal.buttonId;
       });
       return Colors.blue;
     } else{
@@ -393,7 +387,6 @@ class TimerSettingState extends State<TimerSetting> {
           setState(() {
             buttonModal.changeButtonColor = !buttonModal.changeButtonColor;
             isClickMin = true;
-            minButtonText = buttonModal.buttonText;
             buttonModal.color = _changeMinButtonColor(buttonModal);
           });
 
@@ -408,6 +401,7 @@ class TimerSettingState extends State<TimerSetting> {
   Color _changeMinButtonColor(MyButtonModal buttonModal){
     if(clickedMinBtnID == 0) {
       setState(() {
+        minButtonText = buttonModal.buttonText;
         clickedMinBtnID = buttonModal.buttonId;
       });
       return Colors.blue;
@@ -421,7 +415,45 @@ class TimerSettingState extends State<TimerSetting> {
     }
 
   }
-  Widget _buttonWidget(MyButtonModal buttonModal, double width,int id) {
+  Widget _hourButtonWidget(MyButtonModal buttonModal, double width,int id) {
+    return Container(
+      height: 30,
+      width: width,
+      child: RaisedButton(
+        color: buttonModal.color,
+        onPressed: () {
+          setState(() {
+            buttonModal.changeButtonColor = !buttonModal.changeButtonColor;
+            isClickHr = true;
+            buttonModal.color = _changeHrButtonColor(buttonModal);
+          });
+
+        },
+        child: Text(
+          buttonModal.buttonText,
+          style: TextStyle(fontSize: 10),
+        ),
+      ),
+    );
+  }
+  Color _changeHrButtonColor(MyButtonModal buttonModal){
+    if(clickedHourBtnID == 0) {
+      setState(() {
+        hrButtonText = buttonModal.buttonText;
+        clickedHourBtnID = buttonModal.buttonId;
+      });
+      return Colors.blue;
+    } else{
+      if(clickedHourBtnID == buttonModal.buttonId){
+        setState(() {
+          clickedHourBtnID = 0;
+        });
+      }
+      return Colors.white;
+    }
+
+  }
+/*  Widget _buttonWidget(MyButtonModal buttonModal, double width,int id) {
     return Container(
       height: 30,
       width: width,
@@ -459,7 +491,7 @@ class TimerSettingState extends State<TimerSetting> {
         ),
       ),
     );
-  }
+  }*/
   Widget _playUnit(){
     return Container(
      child:   Row(
@@ -489,18 +521,14 @@ class TimerSettingState extends State<TimerSetting> {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                    children: [
-                     for(var i in _minButtons) _buttonWidget(i, 60, 1)
-                     /*_buttonWidget('1m', 50,4),
-                     _buttonWidget('5m', 50,5),
-                     _buttonWidget('15m', 55,6),
-                     _buttonWidget('30m', 60,7),*/
+                     for(var i in _minButtons) _minButtonWidget(i, 60, 1)
                    ],
                  ),
                  SizedBox(height: 5,),
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                    children: [
-                     for(var hr in _hoursButtons) _buttonWidget(hr, 60, 1)
+                     for(var hr in _hoursButtons) _hourButtonWidget(hr, 60, 1)
                      /*_buttonWidget('1h', 50,8),
                      _buttonWidget('4h', 50,9),
                      _buttonWidget('10h', 55,10),

@@ -11,7 +11,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    Widget itemView = Text('Hello');
     final  List<TopData> topDataList = [
       TopData(
           playStyle: "プレイ調み",
@@ -48,7 +47,8 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black87,
-        body:Column(
+        body:
+        Column(
           children: [
             Container(
               margin: EdgeInsets.only(left: 16, right: 16),

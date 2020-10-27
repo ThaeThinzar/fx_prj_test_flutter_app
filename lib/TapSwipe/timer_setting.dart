@@ -99,7 +99,7 @@ class TimerSettingState extends State<TimerSetting> {
 
             onDaySelected: (date, events, dates) {
               setState(() {
-                selectedDate = Constants.changeDateFormat(date);
+                selectedDate = Constants.changeDateFormat(date, DateTimeFormat.CALENDAR_FORMAT);
                // selectedDate = date.year.toString()+'-'+ date.month.toString()+'-'+date.day.toString();
               });
               Fluttertoast.showToast(
@@ -172,8 +172,8 @@ class TimerSettingState extends State<TimerSetting> {
 
   }
   Color _selectedColor(DateTime date){
-    String today = Constants.changeDateFormat(DateTime.now());
-    String selectedDate = Constants.changeDateFormat(date);
+    String today = Constants.changeDateFormat(DateTime.now(),DateTimeFormat.CALENDAR_FORMAT);
+    String selectedDate = Constants.changeDateFormat(date,DateTimeFormat.CALENDAR_FORMAT);
     if(selectedDate == today){
       return Colors.blue;
     } else {

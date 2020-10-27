@@ -1,7 +1,7 @@
 class HistoryTradingData{
   String title;
   DateTime date;
-  String pointLostData;
+  int pointLostData;
 
 
   HistoryTradingData({this.title, this.date, this.pointLostData});

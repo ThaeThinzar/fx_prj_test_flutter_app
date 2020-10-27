@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fx_prj_test_flutter_app/home/home_page.dart';
-import 'package:fx_prj_test_flutter_app/library/library_screen.dart';
+import 'package:fx_prj_test_flutter_app/library/history_of_library_list.dart';
 import 'package:fx_prj_test_flutter_app/main.dart';
 import 'package:fx_prj_test_flutter_app/mypage/my_page.dart';
 
@@ -11,7 +11,7 @@ class _HomeBaseState extends State<HomeBase> {
   int _currentTab = 0;
   final List<Widget> _childern = [
     HomePage(),
-    LibraryScreen(),
+    HistoryOfTradingListView(),
     MyPageScreen()
   ];
   void onTabTapped(int index) {

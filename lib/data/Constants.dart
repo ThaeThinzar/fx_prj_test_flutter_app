@@ -19,11 +19,21 @@ class ScreenURLPath {
 }
 class Constants {
 
-  static String changeDateFormat(DateTime dateTime){
-    DateFormat dateFormat = new  DateFormat('yyyy-MMM-dd on EEEE');
+  static String changeDateFormat(DateTime dateTime,String format){
+    DateFormat dateFormat = new  DateFormat(format);
     String date = dateFormat.format(dateTime);
     return date;
   }
+  static DateTime convertDateFromString(String strDate){
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime todayDate = dateFormat.parse(strDate);
+    print(todayDate);
+   return todayDate;
+  }
+}
+class DateTimeFormat{
+  static const String CALENDAR_FORMAT = 'yyyy-MMM-dd on EEEE';
+  static const String YMD_FORMAT = 'yyyy/MMM/dd';
 }
 const TOP_DATA =[
   {

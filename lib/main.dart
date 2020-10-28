@@ -10,6 +10,7 @@ import 'package:fx_prj_test_flutter_app/TapSwipe/tap_home.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
 import 'package:fx_prj_test_flutter_app/home/homebase.dart';
 import 'package:fx_prj_test_flutter_app/home/share_social.dart';
+import 'package:fx_prj_test_flutter_app/library/history_of_library_list.dart';
 import 'package:fx_prj_test_flutter_app/localization/demo_localization.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/login_screen.dart';
 import 'package:fx_prj_test_flutter_app/onboard/tuturial_walkthrough_main.dart';
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
     ScreenURLPath.SLIDEUPLIBRARY:(context) => TapSwipeTest(),
     ScreenURLPath.BOTTOM_DRAWER:(context) => BottomDrawer(),
     ScreenURLPath.SLIABLELIST:(context) => SlidableListItem(),
+    ScreenURLPath.HISTORYTRADING:(context) => HistoryOfTradingListView() ,
     ScreenURLPath.SLIABLE_BUTTON:(context) => SelectableButtonWithGesture(),
     ScreenURLPath.RATING_PAGE:(context) => RatingPageScreen(),
   };
@@ -185,6 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
             CommonWidget.buttonWidget(context, ScreenURLPath.MY_PAGE,'MyPage Setting'),
             CommonWidget.buttonWidget(context, ScreenURLPath.SHARE_SNS, 'Share to SNS'),
             CommonWidget.buttonWidget(context, ScreenURLPath.MAGNIFINE, 'Magnifying Window'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.HISTORYTRADING, 'History'),
 
           ],
         ),

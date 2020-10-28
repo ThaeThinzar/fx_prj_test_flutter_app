@@ -10,12 +10,12 @@ class ScreenURLPath {
   static const String TAB = '/tab';
   static const String MY_PAGE = '/my_page';
   static const String MAGNIFINE = '/magnifine';
-
   static const String SLIDEUPLIBRARY = '/slide_up_libray';
   static const String BOTTOM_DRAWER = '/bottom_drawer';
   static const String SLIABLELIST = '/sliable';
   static const String SLIABLE_BUTTON = '/sliable_button';
   static const String RATING_PAGE = '/rating_screen';
+  static const String HISTORYTRADING = '/history_trading_view';
 }
 class Constants {
 

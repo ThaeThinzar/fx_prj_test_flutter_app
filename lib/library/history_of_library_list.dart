@@ -188,20 +188,21 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                             child:  CustomScrollView(
                               slivers: [
                                 SliverPadding(
-                                  padding: EdgeInsets.only(left: 4,bottom: 4,right: 4),
+                                  padding: EdgeInsets.only(left: 4,bottom: 16,right: 4),
                                   sliver: SliverFixedExtentList(
                                     itemExtent: 70,
                                     delegate: SliverChildBuilderDelegate(
                                             (context,index)=> HistoryTradingView(
 
                                               data: isSortedByDate ? (isSortedByPL ? sortedByPL[index] : sortedListByDate[index]) : (isSortedByPL ? sortedByPL[index] : topDataList[index]) ,),
-                                        childCount:topDataList.length+1
+                                        childCount:topDataList.length
                                     ),
                                   ),
                                 )
                               ],
                             ),
                           ),
+
                         ],
                       ),
                     ),

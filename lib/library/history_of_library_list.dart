@@ -83,7 +83,7 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: Colors.grey,
+      appBar: AppBar(title: Text('History of Trading', style: TextStyle(fontSize: 18),),),
       body: GestureDetector(
         onPanEnd: (details){
           if (details.velocity.pixelsPerSecond.dy > threshold) {
@@ -111,28 +111,32 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          Container(
+                        /*  Container(
                             margin: EdgeInsets.only(top: 16, left: 8, right: 8),
                             width: MediaQuery.of(context).size.width,
                             height: 25,
                             child: Text(' Titles of History of Trading', textAlign: TextAlign.center,style: TextStyle(color: Colors.black, fontSize: 12),),
-                          ),
+                          ),*/
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 50,
+                            height: 40,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                IconButton(
-                                  icon: Icon(Icons.calendar_today, color: Colors.white,),
-                                  iconSize: 30,
-                                  color: Colors.white,
-                                  onPressed: (){
-                                    setState(() {
-                                      isShowCalendarView = !isShowCalendarView;
-                                    });
-                                  },
+                                Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(bottom: 16),
+                                  child: IconButton(
+                                    icon: Icon(Icons.calendar_today, color: Colors.grey,),
+                                    iconSize: 26,
+                                    color: Colors.white,
+                                    onPressed: (){
+                                      setState(() {
+                                        isShowCalendarView = !isShowCalendarView;
+                                      });
+                                    },
+                                  ),
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(0.0),
@@ -177,7 +181,7 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                       });
                                     }
                                   },
-                                  icon:Icon(Icons.sort,color: isSortedByDate ? Colors.blue: Colors.white,) ,
+                                  icon:Icon(Icons.sort,color: isSortedByDate ? Colors.blue: Colors.grey,) ,
                                   iconSize: 30,
                                 )
                               ],

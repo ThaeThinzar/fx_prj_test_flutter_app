@@ -10,6 +10,8 @@ import 'package:fx_prj_test_flutter_app/TapSwipe/tap_home.dart';
 import 'package:fx_prj_test_flutter_app/TapSwipe/tap_swipe.dart';
 import 'package:fx_prj_test_flutter_app/home/homebase.dart';
 import 'package:fx_prj_test_flutter_app/home/share_social.dart';
+import 'package:fx_prj_test_flutter_app/library/history_of_demonstration_list.dart';
+import 'package:fx_prj_test_flutter_app/library/history_of_demostrate_later.dart';
 import 'package:fx_prj_test_flutter_app/library/history_of_library_list.dart';
 import 'package:fx_prj_test_flutter_app/localization/demo_localization.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/login_screen.dart';
@@ -53,6 +55,8 @@ class _MyAppState extends State<MyApp> {
     ScreenURLPath.BOTTOM_DRAWER:(context) => BottomDrawer(),
     ScreenURLPath.SLIABLELIST:(context) => SlidableListItem(),
     ScreenURLPath.HISTORYTRADING:(context) => HistoryOfTradingListView() ,
+    ScreenURLPath.HISTORY_OF_DEMON_LIST:(context) => HistoryOfDemonstrationList() ,
+    ScreenURLPath.HISTORY_OF_DEMON_LATER:(context) => HistoryOfDemonstrationLater() ,
     ScreenURLPath.SLIABLE_BUTTON:(context) => SelectableButtonWithGesture(),
     ScreenURLPath.RATING_PAGE:(context) => RatingPageScreen(),
   };
@@ -92,6 +96,7 @@ class _MyAppState extends State<MyApp> {
       );
     }else{
       return MaterialApp(
+        debugShowCheckedModeBanner: false,
           locale: _locale,
           localizationsDelegates:[
             DemoLocalization.delegate,
@@ -188,6 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
             CommonWidget.buttonWidget(context, ScreenURLPath.SHARE_SNS, 'Share to SNS'),
             CommonWidget.buttonWidget(context, ScreenURLPath.MAGNIFINE, 'Magnifying Window'),
             CommonWidget.buttonWidget(context, ScreenURLPath.HISTORYTRADING, 'History'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.HISTORY_OF_DEMON_LIST, 'History demo'),
 
           ],
         ),

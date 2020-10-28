@@ -25,7 +25,7 @@ class _HistoryTradingViewState extends State<HistoryTradingView>{
     return Padding(
       padding: EdgeInsets.all(2),
       child: Card(
-        color: Colors.black26,
+        color: Colors.blueGrey,
         child:
         Column(
           mainAxisSize: MainAxisSize.min,

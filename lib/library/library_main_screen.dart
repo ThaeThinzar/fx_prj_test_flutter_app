@@ -128,10 +128,11 @@ class _LibraryMainScreenState extends State<LibraryMainScreen>{
       );
       return Scaffold(
         appBar: AppBar(
-          title: Text('widget.title'),
+          title: Text('ライブラリー'),
         ),
         body:new Container(
-          child: ListView(
+          child:
+          ListView(
             padding: EdgeInsets.all(0.0),
             scrollDirection: Axis.vertical,
             children: <Widget>[
@@ -139,9 +140,9 @@ class _LibraryMainScreenState extends State<LibraryMainScreen>{
                   margin:EdgeInsets.all(4),
                   child: Text('Title of Libray',textAlign: TextAlign.center,)),
               demonstrationList,
-              _showMoreButton(ScreenURLPath.HISTORYTRADING),
+              _showMoreButton(ScreenURLPath.HISTORY_OF_DEMON_LIST),
               demonstrationLaterList,
-              _showMoreButton(ScreenURLPath.HISTORYTRADING),
+              _showMoreButton(ScreenURLPath.HISTORY_OF_DEMON_LATER),
               SizedBox(height: 8,),
               historyOfTradingList,
               _showMoreButton(ScreenURLPath.HISTORYTRADING),
@@ -162,6 +163,7 @@ class _LibraryMainScreenState extends State<LibraryMainScreen>{
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         onPressed: (){
          CommonWidget.onPressedToNavigate(screenName,context);
+
         },
         child: Text('Show More',style: TextStyle(fontSize: 12),),
       ),

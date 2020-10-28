@@ -110,4 +110,9 @@ class CommonWidget {
       Navigator.of(context).pushNamed(screenName);
     });
   }
+ static void onReplacementScreen(String screenName, BuildContext context){
+   WidgetsBinding.instance.addPostFrameCallback((_) {
+     Navigator.of(context).pushReplacementNamed(screenName);
+   });
+ }
 }

@@ -16,6 +16,8 @@ class ScreenURLPath {
   static const String SLIABLE_BUTTON = '/sliable_button';
   static const String RATING_PAGE = '/rating_screen';
   static const String HISTORYTRADING = '/history_trading_view';
+  static const String HISTORY_OF_DEMON_LIST = '/history_demonstration_view';
+  static const String HISTORY_OF_DEMON_LATER = '/history_demonstration_later';
 }
 class Constants {
 

@@ -17,6 +17,24 @@ class LibraryMainScreen extends StatefulWidget{
 class _LibraryMainScreenState extends State<LibraryMainScreen>{
   List<TopData> topDataList = TopData.getTopDataList();
   List<HistoryTradingData> tradingList = HistoryTradingData.getHistoryTradingDataList();
+  List<HistoryTradingData> sortedByPLAs = [];
+  List<HistoryTradingData> sortedByPLDes = [];
+  bool isSortedByPL = null;
+
+  @override
+  void initState() {
+    super.initState();
+    sortedByPLAs.addAll(tradingList);
+    sortedByPLDes.addAll(tradingList);
+    _sortByPLAscending();
+    _sortByPLDescending();
+  }
+  _sortByPLAscending(){
+    sortedByPLAs..sort((item1, item2) => item2.pointLostData.compareTo(item1.pointLostData));
+  }
+  _sortByPLDescending(){
+    sortedByPLDes..sort((item1, item2) => item1.pointLostData.compareTo(item2.pointLostData));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +72,7 @@ class _LibraryMainScreenState extends State<LibraryMainScreen>{
                   padding: EdgeInsets.all(0.0),
                   itemCount: topDataList.length,
                   itemBuilder: (context,index){
-                    return EventItemView(topDataList[index]);
+                    return EventItemView( topDataList[index]);
                   })
           ),
 
@@ -73,8 +91,17 @@ class _LibraryMainScreenState extends State<LibraryMainScreen>{
               Container(
                 height: 20,
                 child: RaisedButton(
+                  color: isSortedByPL == null ? Colors.white70 :  isSortedByPL ? Colors.blue : Colors.white70  ,
                   onPressed: (){
-
+                    if(isSortedByPL == null){
+                      setState(() {
+                        isSortedByPL = true;
+                      });
+                    } else {
+                      setState(() {
+                        isSortedByPL = !isSortedByPL;
+                      });
+                    }
                   },
                   child: Text("損益",style: TextStyle(fontSize: 8),),
                 ),
@@ -87,9 +114,9 @@ class _LibraryMainScreenState extends State<LibraryMainScreen>{
             child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 padding: EdgeInsets.all(0.0),
-                itemCount: 10,
+                itemCount: tradingList.length,
                 itemBuilder: (context,index){
-                  return HistoryTradingView(data:tradingList[index]);
+                  return HistoryTradingView(data: isSortedByPL == null ? tradingList[index] : isSortedByPL ? sortedByPLAs[index] :sortedByPLDes[index]);
                 })
           )
         ],

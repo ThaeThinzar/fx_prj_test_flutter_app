@@ -21,55 +21,20 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
   String selectedDate = '';
   List<HistoryTradingData> sortedListByDate = [];
   List<HistoryTradingData> sortedByPL = [];
+  List<HistoryTradingData> tradingList = HistoryTradingData.getHistoryTradingDataList();
+  List<CurrencyData> currencyList = CurrencyData.getCurrencyList();
 
-  final  List<HistoryTradingData> topDataList = [
-    HistoryTradingData(
-        title: "History of Trading 1",date:Constants.convertDateFromString("2019-08-19 8:40:23"), pointLostData: 112),
-    HistoryTradingData(
-       title: "History of Trading 2", date:Constants.convertDateFromString("2019-05-19 8:40:23"), pointLostData: 30),
-    HistoryTradingData(
-        title: "History of Trading 3",date:Constants.convertDateFromString("2020-10-25 8:40:23"), pointLostData: 98),
-    HistoryTradingData(
-        title: "History of Trading 4", date:Constants.convertDateFromString("2019-02-19 8:40:23"), pointLostData: 21),
-    HistoryTradingData(
-        title: "History of Trading 5" ,date:Constants.convertDateFromString("2020-02-19 8:40:23"), pointLostData: 65 ),
-    HistoryTradingData(
-        title: "History of Trading 6",date:Constants.convertDateFromString("2020-05-19 8:40:23"), pointLostData: 121),
-    HistoryTradingData(
-        title: "History of Trading 7", date:Constants.convertDateFromString("2020-07-20 8:40:23"), pointLostData: 283),
-    HistoryTradingData(
-        title: "History of Trading 8", date:Constants.convertDateFromString("2020-06-19 8:40:23"), pointLostData: 145),
-    HistoryTradingData(
-        title: "History of Trading 9",date:Constants.convertDateFromString("2019-07-16 8:40:23"), pointLostData: 56),
-    HistoryTradingData(
-        title: "History of Trading 10",date:Constants.convertDateFromString("2019-07-25 8:40:23"), pointLostData: 66),
-    HistoryTradingData(
-        title: "History of Trading 11", date:Constants.convertDateFromString("2020-07-20 8:40:23"), pointLostData: 8),
-    HistoryTradingData(
-        title: "History of Trading 12", date:Constants.convertDateFromString("2020-06-19 8:40:23"), pointLostData: 145),
-    HistoryTradingData(
-        title: "History of Trading 13",date:Constants.convertDateFromString("2020-10-27 8:40:23"), pointLostData: 113),
-    HistoryTradingData(
-        title: "History of Trading 14",date:Constants.convertDateFromString("2019-01-25 8:40:23"), pointLostData: 88),
-  ];
-  final  List<CurrencyData> currencyList = [
-    CurrencyData(countryCode: "USD", exchangeRate: 1288),
-    CurrencyData(countryCode: "JPY", exchangeRate: 12),
-    CurrencyData(countryCode: "KRW", exchangeRate:  113.94),
-    CurrencyData(countryCode: "THB", exchangeRate:  41.14),
-    CurrencyData(countryCode: "SGD", exchangeRate:   946.8),
-  ];
   var threshold = 100;
   @override
   void initState() {
     super.initState();
     //sorted by date
-    sortedListByDate.addAll(topDataList);
+    sortedListByDate.addAll(tradingList);
     _sortByDate();
     // sorted by PL
-    sortedByPL.addAll(topDataList);
+    sortedByPL.addAll(tradingList);
     _sortByPL();
-    print('Top list lenght : ${topDataList.length}, \nsortedbyPPL : ${sortedByPL.length}, \nsortedbyDate:${sortedListByDate.length}', );
+    print('Top list lenght : ${tradingList.length}, \nsortedbyPPL : ${sortedByPL.length}, \nsortedbyDate:${sortedListByDate.length}', );
   }
   _sortByDate(){
     sortedListByDate..sort((item1, item2) => item2.date.compareTo(item1.date));
@@ -198,8 +163,8 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                     delegate: SliverChildBuilderDelegate(
                                             (context,index)=> HistoryTradingView(
 
-                                              data: isSortedByDate ? (isSortedByPL ? sortedByPL[index] : sortedListByDate[index]) : (isSortedByPL ? sortedByPL[index] : topDataList[index]) ,),
-                                        childCount:topDataList.length
+                                              data: isSortedByDate ? (isSortedByPL ? sortedByPL[index] : sortedListByDate[index]) : (isSortedByPL ? sortedByPL[index] : tradingList[index]) ,),
+                                        childCount:tradingList.length
                                     ),
                                   ),
                                 )

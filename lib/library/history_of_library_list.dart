@@ -97,6 +97,11 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                     iconSize: 26,
                                     color: Colors.white,
                                     onPressed: (){
+                                      if(isShowCurrencyList){
+                                        setState(() {
+                                          isShowCurrencyList = false;
+                                        });
+                                      }
                                       setState(() {
                                         isShowCalendarView = !isShowCalendarView;
                                       });
@@ -109,6 +114,11 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                   child: RaisedButton(
                                     color: Colors.white,
                                     onPressed: (){
+                                      if(isShowCalendarView){
+                                        setState(() {
+                                          isShowCalendarView = false;
+                                        });
+                                      }
                                       setState(() {
                                         isShowCurrencyList = !isShowCurrencyList;
                                       });

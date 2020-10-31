@@ -1,6 +1,7 @@
-class SortData {
-  bool isSorted;
-  String type ;
-  SortData(this.isSorted,this.type);
+class SortedData {
+  bool isSortedByPL;
+  bool isSortedByDate;
+  bool isAscending;
+  SortedData(this.isSortedByPL,this.isSortedByDate,this.isAscending);
 
 }

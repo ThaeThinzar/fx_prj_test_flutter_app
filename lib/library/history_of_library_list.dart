@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fx_prj_test_flutter_app/data/Constants.dart';
+import 'package:fx_prj_test_flutter_app/data/SortedData.dart';
 import 'package:fx_prj_test_flutter_app/data/currency_data.dart';
 import 'package:fx_prj_test_flutter_app/data/history_trading_data.dart';
 import 'package:fx_prj_test_flutter_app/library/currency_list_item_view.dart';
@@ -15,8 +16,9 @@ class HistoryOfTradingListView extends StatefulWidget {
 class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
   bool isShowCalendarView = false;
   bool isShowCurrencyList = false;
-  bool isSortedByDate = false;
-  bool isSortedByPL = false;
+  bool isSortedByDate = null;
+  bool isSortedByPL = null;
+  SortedData sortedData ;
   CalendarController  _calendarController = CalendarController() ;
   String selectedDate = '';
   List<HistoryTradingData> sortedListByDate = [];
@@ -28,6 +30,7 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
   @override
   void initState() {
     super.initState();
+    sortedData  = SortedData(false, false,  false);
     //sorted by date
     sortedListByDate.addAll(tradingList);
     _sortByDate();
@@ -76,12 +79,6 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                        /*  Container(
-                            margin: EdgeInsets.only(top: 16, left: 8, right: 8),
-                            width: MediaQuery.of(context).size.width,
-                            height: 25,
-                            child: Text(' Titles of History of Trading', textAlign: TextAlign.center,style: TextStyle(color: Colors.black, fontSize: 12),),
-                          ),*/
                           Container(
                             width: MediaQuery.of(context).size.width,
                             height: 40,
@@ -130,16 +127,20 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                   padding: EdgeInsets.all(0.0),
                                   height: 30,
                                   child: RaisedButton(
-                                    color: isSortedByPL ? Colors.blue: Colors.white,
+                                    color:  Colors.white,
                                     onPressed: (){
-                                      setState(() {
-                                        isSortedByPL = !isSortedByPL;
-                                      });
-                                      if(isSortedByDate){
+                                      if(isSortedByPL == null){
                                         setState(() {
-                                          isSortedByDate = !isSortedByDate;
+                                          isSortedByPL = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isSortedByPL = !isSortedByPL;
                                         });
                                       }
+                                      setState(() {
+                                        sortedData = SortedData(true, false,!sortedData.isAscending);
+                                      });
                                     },
 
                                     child: Text('損益',style: TextStyle(fontSize: 12, color: Colors.black)),
@@ -147,23 +148,27 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                 ),
                                 IconButton(
                                   onPressed: (){
-                                    setState(() {
-                                      isSortedByDate = !isSortedByDate;
-                                    });
-                                    if(isSortedByPL){
+                                    if(isSortedByDate == null){
                                       setState(() {
-                                        isSortedByPL = !isSortedByPL;
+                                        isSortedByDate = true;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        isSortedByDate = !isSortedByDate;
                                       });
                                     }
+                                    setState(() {
+                                      sortedData = SortedData(false, true, !sortedData.isAscending);
+                                    });
                                   },
-                                  icon:Icon(Icons.sort,color: isSortedByDate ? Colors.blue: Colors.grey,) ,
+                                  icon:Icon(Icons.sort,color:  Colors.grey,) ,
                                   iconSize: 30,
                                 )
                               ],
                             ),
                           ),
                           Container(
-                            height: height-90,
+                            height: height-150,
                             child:  CustomScrollView(
                               slivers: [
                                 SliverPadding(
@@ -171,9 +176,17 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                   sliver: SliverFixedExtentList(
                                     itemExtent: 70,
                                     delegate: SliverChildBuilderDelegate(
-                                            (context,index)=> HistoryTradingView(
+                                            (BuildContext context,int index){
+                                              if(sortedData.isSortedByPL || sortedData.isSortedByDate){
+                                                List<HistoryTradingData> dataList = getSortedList(sortedData);
+                                                return HistoryTradingView(data:dataList[index]);
+                                              } else {
+                                                return HistoryTradingView(data:tradingList[index]);
+                                              }
 
-                                              data: isSortedByDate ? (isSortedByPL ? sortedByPL[index] : sortedListByDate[index]) : (isSortedByPL ? sortedByPL[index] : tradingList[index]) ,),
+                                            },
+                                              //   HistoryTradingView(
+                                              //// data: isSortedByDate ? (isSortedByPL ? sortedByPL[index] : sortedListByDate[index]) : (isSortedByPL ? sortedByPL[index] : tradingList[index]) ,),
                                         childCount:tradingList.length
                                     ),
                                   ),
@@ -200,6 +213,35 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
 
 
     );
+  }
+  List<HistoryTradingData> getSortedList(SortedData data, ){
+    List<HistoryTradingData> sortedList = [];
+    sortedList.addAll(tradingList);
+    if(data.isSortedByPL){
+     /* if(data.isAscending){
+        sortedList..sort((item1, item2) => item2.pointLostData.compareTo(item1.pointLostData));
+      } else {
+        sortedList..sort((item1, item2) => item1.pointLostData.compareTo(item2.pointLostData));
+      }*/
+      sortedList = sortAscending(data, sortedList, true);
+    } else if(data.isSortedByDate){
+     /* if(data.isAscending){
+        sortedList..sort((item1, item2) => item2.date.compareTo(item1.date));
+      } else {
+        sortedList..sort((item1, item2) => item1.date.compareTo(item2.date));
+      }*/
+      sortedList = sortAscending(data, sortedList, false);
+    }
+    return sortedList;
+  }
+  List<HistoryTradingData> sortAscending(SortedData data,List<HistoryTradingData> dataList, bool isPL){
+    if(data.isAscending){
+      dataList..sort((item1, item2) => isPL ? item2.pointLostData.compareTo(item1.pointLostData): item2.date.compareTo(item1.date));
+      return dataList;
+    } else {
+      dataList..sort((item1, item2) => isPL ?  item1.pointLostData.compareTo(item2.pointLostData) : item1.date.compareTo(item2.date));
+      return dataList;
+    }
   }
   Widget _calendarDrawer(double width, double height){
     return  ClipRRect(

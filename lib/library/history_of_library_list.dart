@@ -127,7 +127,7 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                   padding: EdgeInsets.all(0.0),
                                   height: 30,
                                   child: RaisedButton(
-                                    color:  Colors.white,
+                                    color: (sortedData.isSortedByPL && sortedData.isSortedByDate) ? Colors.blue :sortedData.isSortedByPL ? Colors.blue:  Colors.white,
                                     onPressed: (){
                                       if(isSortedByPL == null){
                                         setState(() {
@@ -161,7 +161,7 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
                                       sortedData = SortedData(false, true, !sortedData.isAscending);
                                     });
                                   },
-                                  icon:Icon(Icons.sort,color:  Colors.grey,) ,
+                                  icon:Icon(Icons.sort,color: (sortedData.isSortedByDate && sortedData.isSortedByPL) ? Colors.blue : sortedData.isSortedByDate ? Colors.blue: Colors.grey,) ,
                                   iconSize: 30,
                                 )
                               ],
@@ -218,19 +218,11 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
     List<HistoryTradingData> sortedList = [];
     sortedList.addAll(tradingList);
     if(data.isSortedByPL){
-     /* if(data.isAscending){
-        sortedList..sort((item1, item2) => item2.pointLostData.compareTo(item1.pointLostData));
-      } else {
-        sortedList..sort((item1, item2) => item1.pointLostData.compareTo(item2.pointLostData));
-      }*/
       sortedList = sortAscending(data, sortedList, true);
     } else if(data.isSortedByDate){
-     /* if(data.isAscending){
-        sortedList..sort((item1, item2) => item2.date.compareTo(item1.date));
-      } else {
-        sortedList..sort((item1, item2) => item1.date.compareTo(item2.date));
-      }*/
       sortedList = sortAscending(data, sortedList, false);
+    } else if(data.isSortedByDate && isSortedByPL){
+      sortedList = sortAscending(data, sortedListByDate, true);
     }
     return sortedList;
   }
@@ -265,7 +257,6 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
               ),
               Column(
                 children: [
-                  //_showCalenderTab(_calendarController),
                   isShowCurrencyList ? _showCurrencyTab() :_showCalenderTab(_calendarController) ,
                 ],
               )
@@ -405,52 +396,3 @@ class _HistoryOfTradingListViewState extends State<HistoryOfTradingListView>{
   }
 }
 
-
-/*
-
-class CalendarDrawerState extends State<CalendarDrawer> {
-
-  @override
-  void initState() {
-
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return
-      ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(20)),
-      child:
-      Container(
-        color: Colors.white,
-        width: width,
-        //height: height/3+20 ,
-        height: (height / 4) * 3,// for timer setting
-        child:
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
-          child: Column(
-            children: [
-              Icon(
-                Icons.keyboard_arrow_up,
-                size: 20,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Column(
-                children: [
-                  _showCalenderTab(_calendarController)
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-
-}*/

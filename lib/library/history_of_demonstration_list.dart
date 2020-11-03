@@ -63,7 +63,7 @@ class _HistoryOfDemonstrationListViewState extends State<HistoryOfDemonstrationL
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        appBar: AppBar(title: Text('History of Trading',style: TextStyle(fontSize: 18),),
+        appBar: AppBar(title: Text('History of Demonstration',style: TextStyle(fontSize: 18),),
         actions: [
           GestureDetector(
             onTap: (){

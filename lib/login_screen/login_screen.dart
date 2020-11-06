@@ -1,5 +1,6 @@
 
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/model/sns_login_service.dart';
 import 'package:fx_prj_test_flutter_app/profile/profile_user.dart';
 import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
@@ -19,81 +20,27 @@ class LoginScreen extends StatefulWidget {
 }
 class _LoginScreenState extends State<LoginScreen>{
   bool _isLoggedIn = false;
-  Map userProfile;
+  UserData data;
   FBLoginService service = FBLoginService();
- // var profileData;
- // final facebookLogin = FacebookLogin();
-  //static const FB_URL = 'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=';
   static final TwitterLogin twitterLogin = TwitterLogin(
     consumerKey: '2AyxORvtEO7owxOVqnnvcZOQJ',
     consumerSecret: '6oa42K7u7fjH4DVqtiRjcbqwb5sWYDq8vEbyvdZVBdGoJdBcTm',
   );
   bool gotProfile = false;
   GoogleSignIn googleSignIn = GoogleSignIn(clientId: "619033735551-plgl572jufnllvoh011e6cspl14sj8bf.apps.googleusercontent.com");
-
-  /*void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
-    setState(() {
-      this._isLoggedIn = isLoggedIn;
-      this.profileData = profileData;
+  void FBLogin() {
+    setState(()async {
+      UserData response = await service.loginWithFB(context).then((value) {
+        if(value != null){
+          data = UserData(value.name, value.imageUrl, value.email, value.id, value.isLoggedIn);
+          Fluttertoast.showToast(msg: "Login Success",backgroundColor: Colors.green);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: data.name, paccessToken: 'accestoken', pdisplayName: data.email, pimgUrl:  data.imageUrl, pstatusMessage: data.id,appType: 'facebook',)));
+        } else {
+          Fluttertoast.showToast(msg: "Login Error",backgroundColor: Colors.red);
+        }
+      });
     });
-  }*/
-/*  _loginWithFB() async{
-
-    if(_isLoggedIn){
-      service.displayFBLoginProfile(context);
-    } else {
-      service.initialFBLogin();
-    }
-
-  }*/
-/*
-  void initialFBLogin() async{
-    final result = await facebookLogin.logInWithReadPermissions(['email']);
-
-    switch (result.status) {
-      case FacebookLoginStatus.loggedIn:
-        final token = result.accessToken.token;
-        final graphResponse = await http.get(FB_URL+token);
-        final profile = JSON.jsonDecode(graphResponse.body);
-        onLoginStatusChanged(true, profileData: profile);
-        */
-/*print("profile: $profile");
-        String name = profile['name'];
-        var picture = profile['picture'];
-        var data = picture['data'];
-        String url = data['url'];
-        String email = profile['email'];
-        String userId = profile['id'];*//*
-
-        // String acctoken = profile['token'];
-        _displayFBLoginProfile(profileData);
-        setState(() {
-          userProfile = profile;
-          _isLoggedIn = true;
-        });
-        break;
-
-      case FacebookLoginStatus.cancelledByUser:
-       // setState(() => _isLoggedIn = false );
-        onLoginStatusChanged(false);
-        break;
-      case FacebookLoginStatus.error:
-        onLoginStatusChanged(false);
-        break;
-    }
   }
-*/
-/*  _displayFBLoginProfile(profileData){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: profileData['name'], paccessToken: 'accestoken', pdisplayName: profileData['email'], pimgUrl:  profileData['picture']['data']['url'], pstatusMessage: 'statusmessage',appType: 'facebook',)));
-
-  }*/
-/*  _logout(){
-    facebookLogin.logOut();
-    setState(() {
-      _isLoggedIn = false;
-    });
-  }*/
-
   void startLineLogin() async{
     try {
       final result = await LineSDK.instance.login(scopes: ["profile"]);
@@ -190,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen>{
       bool isSignedIn = await googleSignIn.isSignedIn();
       if(isSignedIn){
         print('User already Signed In');
-        // Navigator.pushReplacementNamed(context, '/')
       } else {
         print('NOt signed in ye');
 
@@ -363,7 +309,7 @@ class _LoginScreenState extends State<LoginScreen>{
                               ],
                             ),
                             onPressed: (){
-                              service.loginWithFB(context);
+                              FBLogin();
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),

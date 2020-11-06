@@ -1,5 +1,6 @@
 
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:fx_prj_test_flutter_app/login_screen/model/sns_login_service.dart';
 import 'package:fx_prj_test_flutter_app/profile/profile_user.dart';
 import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,7 +20,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen>{
   bool _isLoggedIn = false;
   Map userProfile;
-  final facebookLogin = FacebookLogin();
+  FBLoginService service = FBLoginService();
+ // var profileData;
+ // final facebookLogin = FacebookLogin();
+  //static const FB_URL = 'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=';
   static final TwitterLogin twitterLogin = TwitterLogin(
     consumerKey: '2AyxORvtEO7owxOVqnnvcZOQJ',
     consumerSecret: '6oa42K7u7fjH4DVqtiRjcbqwb5sWYDq8vEbyvdZVBdGoJdBcTm',
@@ -27,26 +31,42 @@ class _LoginScreenState extends State<LoginScreen>{
   bool gotProfile = false;
   GoogleSignIn googleSignIn = GoogleSignIn(clientId: "619033735551-plgl572jufnllvoh011e6cspl14sj8bf.apps.googleusercontent.com");
 
+  /*void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
+    setState(() {
+      this._isLoggedIn = isLoggedIn;
+      this.profileData = profileData;
+    });
+  }*/
+/*  _loginWithFB() async{
 
-  _loginWithFB() async{
+    if(_isLoggedIn){
+      service.displayFBLoginProfile(context);
+    } else {
+      service.initialFBLogin();
+    }
 
+  }*/
+/*
+  void initialFBLogin() async{
     final result = await facebookLogin.logInWithReadPermissions(['email']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final token = result.accessToken.token;
-        final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token');
+        final graphResponse = await http.get(FB_URL+token);
         final profile = JSON.jsonDecode(graphResponse.body);
-        print("profile: $profile");
+        onLoginStatusChanged(true, profileData: profile);
+        */
+/*print("profile: $profile");
         String name = profile['name'];
         var picture = profile['picture'];
         var data = picture['data'];
         String url = data['url'];
         String email = profile['email'];
-        String userId = profile['id'];
-       // String acctoken = profile['token'];
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId:userId , paccessToken: '*****', pdisplayName: name, pimgUrl: url, pstatusMessage: 'User email is :$email' ,appType: 'Facebook',)));
+        String userId = profile['id'];*//*
 
+        // String acctoken = profile['token'];
+        _displayFBLoginProfile(profileData);
         setState(() {
           userProfile = profile;
           _isLoggedIn = true;
@@ -54,20 +74,25 @@ class _LoginScreenState extends State<LoginScreen>{
         break;
 
       case FacebookLoginStatus.cancelledByUser:
-        setState(() => _isLoggedIn = false );
+       // setState(() => _isLoggedIn = false );
+        onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.error:
-        setState(() => _isLoggedIn = false );
+        onLoginStatusChanged(false);
         break;
     }
-
   }
-  _logout(){
+*/
+/*  _displayFBLoginProfile(profileData){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: profileData['name'], paccessToken: 'accestoken', pdisplayName: profileData['email'], pimgUrl:  profileData['picture']['data']['url'], pstatusMessage: 'statusmessage',appType: 'facebook',)));
+
+  }*/
+/*  _logout(){
     facebookLogin.logOut();
     setState(() {
       _isLoggedIn = false;
     });
-  }
+  }*/
 
   void startLineLogin() async{
     try {
@@ -202,7 +227,8 @@ class _LoginScreenState extends State<LoginScreen>{
       return Scaffold(
         body:Center(
           child: SwipeDetector(
-            child: Column(
+            child:
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
@@ -337,7 +363,7 @@ class _LoginScreenState extends State<LoginScreen>{
                               ],
                             ),
                             onPressed: (){
-                              _loginWithFB();
+                              service.loginWithFB(context);
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),

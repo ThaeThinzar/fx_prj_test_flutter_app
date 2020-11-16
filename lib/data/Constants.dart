@@ -18,6 +18,7 @@ class ScreenURLPath {
   static const String HISTORYTRADING = '/history_trading_view';
   static const String HISTORY_OF_DEMON_LIST = '/history_demonstration_view';
   static const String HISTORY_OF_DEMON_LATER = '/history_demonstration_later';
+  static const String FORCE_UPDATE = '/notification_to_update';
 }
 class Constants {
 

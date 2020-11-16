@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen>{
       var account = googleSignIn.currentUser;
       var auth = await account.authentication;
       print(account);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: 'userId', paccessToken: "2222222222", pdisplayName: account.displayName, pimgUrl: account.photoUrl, pstatusMessage: account.email,appType: 'Google',)));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(puserId: 'userId', paccessToken: " ", pdisplayName: account.displayName, pimgUrl: account.photoUrl, pstatusMessage: account.email,appType: 'Google',)));
 
     }
 

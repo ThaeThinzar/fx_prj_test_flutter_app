@@ -17,6 +17,7 @@ import 'package:fx_prj_test_flutter_app/localization/demo_localization.dart';
 import 'package:fx_prj_test_flutter_app/login_screen/login_screen.dart';
 import 'package:fx_prj_test_flutter_app/onboard/tuturial_walkthrough_main.dart';
 import 'package:fx_prj_test_flutter_app/rating_review_app/rating_page_screen.dart';
+import 'package:fx_prj_test_flutter_app/repro_notification/notification_to_updae.dart';
 import 'package:fx_prj_test_flutter_app/slide_gesture/SlidePage.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
     ScreenURLPath.HISTORY_OF_DEMON_LATER:(context) => HistoryOfDemonstrationLater() ,
     ScreenURLPath.SLIABLE_BUTTON:(context) => SelectableButtonWithGesture(),
     ScreenURLPath.RATING_PAGE:(context) => RatingPageScreen(),
+    ScreenURLPath.FORCE_UPDATE:(context) => InAppReviewScreen(),
   };
   Locale _locale;
   setLocale(Locale locale) {
@@ -194,6 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
             CommonWidget.buttonWidget(context, ScreenURLPath.MAGNIFINE, 'Magnifying Window'),
             CommonWidget.buttonWidget(context, ScreenURLPath.HISTORYTRADING, 'History'),
             CommonWidget.buttonWidget(context, ScreenURLPath.HISTORY_OF_DEMON_LIST, 'History demo'),
+            CommonWidget.buttonWidget(context, ScreenURLPath.FORCE_UPDATE, 'Update Your App')
 
           ],
         ),

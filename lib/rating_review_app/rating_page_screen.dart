@@ -16,7 +16,8 @@ class RatingPageScreenState extends State<RatingPageScreen>{
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(title: Text('Rate your App'),),
-      body: Container(
+      body:
+      Container(
         padding: EdgeInsets.all(16),
         alignment: Alignment.center,
         child: Column(
